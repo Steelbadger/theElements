@@ -17,14 +17,13 @@ public:
 	void Update(int mouseX, int mouseY);
 	void Display(HDC bitmapHDC, HDC backHDC);
 	void SetMouseLoc(int x, int y){mouseX = x; mouseY = y;}
-	void SetDisplaySize(int w, int h) {width = w; height = h;}
+	void SetDisplaySize(int w, int h);
 
 private:
 	int width, height;
 	int offset;
 	int mouseX, mouseY;
 	sprite bottomMenu;
-	bool bottomMenuLock;
 
 };
 

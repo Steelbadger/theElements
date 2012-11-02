@@ -2,12 +2,11 @@
 
 
 gameUI::gameUI(int w, int h):
-	bottomMenu("UIBottom.bmp"),
-		bottomMenuLock(false)
+	bottomMenu("UIBottom.bmp")
 {
 	width = w;
 	height = h;
-	bottomMenu.SetLocation((w-bottomMenu.GetWidth())/2, h - 60);
+	bottomMenu.SetLocation((w-bottomMenu.GetWidth())/2, h - 20);
 }
 
 
@@ -23,17 +22,18 @@ void gameUI::Display(HDC bitmapHDC, HDC backHDC)
 void gameUI::Update(int x, int y)
 {
 	SetMouseLoc(x, y);
-	if (mouseY > (height-60) && bottomMenu.GetY() > (height - 120) && !bottomMenuLock)
-	{
-		bottomMenu.Move(sprite::UP);
-	} else if (bottomMenu.GetY() < (height - 60) && !(bottomMenu.GetY() > (height - 60)) && !bottomMenuLock)
-	{
+	if (bottomMenu.MouseOver(mouseX, mouseY)){
+		if (bottomMenu.GetY() > (height - 100)){
+			bottomMenu.Move(sprite::UP);
+		}
+	} else if (bottomMenu.GetY() < (height - 20)){
 		bottomMenu.Move(sprite::DOWN);
 	}
-
-	if (bottomMenu.GetY() == (height - 120) && mouseY < (height - 120))
-		bottomMenuLock = true;
-	else
-		bottomMenuLock = false;
 		
+}
+void gameUI::SetDisplaySize(int w, int h)
+{
+	width = w;
+	height = h;
+	bottomMenu.SetLocation((w-bottomMenu.GetWidth())/2, h - 20);
 }
