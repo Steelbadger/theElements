@@ -73,6 +73,15 @@ particle::particle(type particleType)
 			name = "Charm Quark";
 			image = new sprite("CharmQuark.bmp");
 			break;
+		case GLUON:
+			mass = 0;
+			charge[0] = 0;
+			charge[1] = 0;
+			spin[0] = 1;
+			spin[1] = 1;
+			name = "Gluon";
+			image = new sprite("gluon.bmp");
+			break;
 	}
 }
 
@@ -80,12 +89,17 @@ particle::~particle(void)
 {
 }
 
-void particle::Update()
+void particle::Update(int x, int y)
 {
 	if (IsSelected() == true)
 	{
-
+		SetLocation(x, y);
 	} else {
 
 	}
+}
+
+void particle::Drag(int x, int y)
+{
+
 }

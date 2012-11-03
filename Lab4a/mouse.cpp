@@ -54,6 +54,8 @@ void Mouse::Update()
 {
 	lmouseclick = false;
 	rmouseclick = false;
+	lrelease = false;
+	rrelease = false;
 	if (lmouse == true && lastlmouse == false)
 	{
 		lmouseclick = true;
@@ -61,6 +63,14 @@ void Mouse::Update()
 	if (rmouse == true && lastrmouse == false)
 	{
 		rmouseclick = true;
+	}
+	if (lmouse == false && lastlmouse == true)
+	{
+		lrelease = true;
+	}
+	if (rmouse == false && lastrmouse == true)
+	{
+		rrelease = true;
 	}
 	lastlmouse = lmouse;
 	lastrmouse = rmouse;

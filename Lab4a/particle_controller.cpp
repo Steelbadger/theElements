@@ -116,5 +116,33 @@ bool particle_controller::IsEmpty()
 
 bool particle_controller::IsParticle(int i)
 {
-	return spaces[i];
+	return !spaces[i];
+}
+
+void particle_controller::Update()
+{
+	for (int i = 0; i < maxParticles; i++)
+	{
+		if (!spaces[i]) {
+			if (particles[i]->IsSelected() == false){
+				if (particles[i]->GetX() > xSize/2 - particles[i]->GetWidth()/2) {
+					particles[i]->Move(sprite::LEFT);
+				} else {
+					particles[i]->Move(sprite::RIGHT);
+				}
+				if (particles[i]->GetY() > ySize/2- particles[i]->GetHeight()/2) {
+					particles[i]->Move(sprite::UP);
+				} else {
+					particles[i]->Move(sprite::DOWN);
+				}
+			}
+		}
+	}
+
+}
+
+void particle_controller::SetScreenSize(int x, int y)
+{
+	xSize = x;
+	ySize = y;
 }

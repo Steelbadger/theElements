@@ -31,6 +31,8 @@ public:
 	bool ReportKeyPress(char key) {return pressed[key];}
 	bool ReportLMousePress() {return mouse.lClick();}
 	bool ReportRMousePress() {return mouse.rClick();}
+	bool ReportLMouseRelease() {return mouse.lRelease();}
+	bool ReportRMouseRelease() {return mouse.rRelease();}
 	int ReportMouseLocation(Mouse::axis Axis) {return mouse.Location(Axis);}
 private:
 	bool keys[256];

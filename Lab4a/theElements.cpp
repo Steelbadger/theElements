@@ -18,33 +18,23 @@ void theElements::HandleInstantInput()
 {
 			input.Update();
 
-			if (input.ReportKeyPress('K') && particles.SpaceRemaining() && !input.ReportKeyState(VK_SHIFT))
+			if (input.ReportLMousePress() && particles.SpaceRemaining() && HUD.ReturnParticleCreation() != particle::NONE)
 			{
-				particles.CreateNew(particle::CHARM_QUARK);
-			} else if (input.ReportKeyPress('K') && !particles.IsEmpty() && input.ReportKeyState(VK_SHIFT)) {
-				particles.DeleteParticles();
+				current = particles.CreateNew(HUD.ReturnParticleCreation());
+				particles.SetSelected(current);
+			} else if (input.ReportLMouseRelease() && particles.IsParticle(current)) {
+				particles.DeSelect(current);
 			}
-
-			if (input.ReportLMousePress() && particles.SpaceRemaining() && !input.ReportKeyState(VK_SHIFT))
-			{
-				particles.CreateNew(particle::STRANGE_QUARK);
-			} else if (input.ReportLMousePress() && particles.IsEmpty() && input.ReportKeyState(VK_SHIFT)) {
-				particles.DeleteParticles();
-			}
-
-
 }
 
 void theElements::HandleDelayedInput(unsigned long x)
 {
 	if (WaitFor(x))
 	{	
-		if (particles.IsParticle(0)) {
-			if (input.ReportKeyState('D'))
-				particles.MoveParticle(0, sprite::RIGHT);
-		}
 		HUD.Update(input.GetMouseX(), input.GetMouseY());
+		particles.Update();
 	}
+	
 }
 
 bool theElements::WaitFor(unsigned long delay)
@@ -103,6 +93,7 @@ void theElements::OnSize(LPARAM lParam)
 	setBuffers();
 	menu.SetMenuLocation(cxClient/2, cyClient/2);
 	HUD.SetDisplaySize(cxClient, cyClient);
+	particles.SetScreenSize(cxClient, cyClient);
 
 }
 
@@ -148,7 +139,7 @@ void theElements::DisplayMenuScreen()
 	input.Update();
 	if (input.ReportLMousePress())
 		menu.OnClick(input.ReportMouseLocation(Mouse::X), input.ReportMouseLocation(Mouse::Y));
-	menu.Update();
+	menu.Update(input.GetMouseX(), input.GetMouseY());
 	if (menu.ReturnButtonClicked() == menu::NewGame)
 	{
 		currentState = Game;
@@ -166,9 +157,12 @@ void theElements::DisplayMenuScreen()
 void theElements::RunGame()
 {
 		HandleInstantInput();
-		HandleDelayedInput(10);
+		HandleDelayedInput(5);
 
 
+		if (particles.IsParticle(current))
+			if (particles.IsSelected(current))
+				particles.SetLocation(current, input.GetMouseX()-64, input.GetMouseY()-64);
 		particles.DrawAll(bitmapHDC, backHDC);
 		HUD.Display(bitmapHDC, backHDC);
 		displayFrame();

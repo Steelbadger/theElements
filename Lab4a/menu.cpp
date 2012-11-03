@@ -8,8 +8,8 @@
 
 menu::menu(void):
 	background("BG.bmp"),
-	newGame("NewGame.bmp"),
-	quit("Quit.bmp"),
+	newGame("button1.bmp", "button2.bmp", "newgame1.bmp"),
+	quit("button1.bmp", "button2.bmp", "quit1.bmp"),
 	title("SplashTitle.bmp"),
 	ButtonClicked(None)
 {
@@ -40,12 +40,10 @@ void menu::SetMenuLocation(int x, int y)
 	title.SetLocation(x-150, y-100);
 }
 
-void menu::Update()
+void menu::Update(int MouseX, int MouseY)
 {
-	if (newGame.IsSelected())
-		ButtonClicked = NewGame;
-	if (quit.IsSelected())
-		ButtonClicked = Quit;
+	newGame.Update(MouseX, MouseY);
+	quit.Update(MouseX, MouseY);
 }
 
 void menu::OnClick(int x, int y)

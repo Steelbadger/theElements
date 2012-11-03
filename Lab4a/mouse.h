@@ -25,6 +25,8 @@ public:
 	bool OldLButton() {return lastlmouse;}
 	bool rClick() {return rmouseclick;}
 	bool lClick() {return lmouseclick;}
+	bool rRelease() {return rrelease;}
+	bool lRelease() {return lrelease;}
 	int Location(axis);
 
 private:
@@ -33,6 +35,7 @@ private:
 	bool lmouse, rmouse;
 	bool lastlmouse, lastrmouse;
 	bool lmouseclick, rmouseclick;
+	bool lrelease, rrelease;
 
 
 	void UpdatePosition(LPARAM);

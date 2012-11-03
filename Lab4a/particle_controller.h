@@ -29,11 +29,18 @@ public:
 	bool SpaceRemaining();
 	bool IsEmpty();
 	bool IsParticle(int ID);
+	void SetSelected(int ID) {particles[ID]->SetSelected(true);}
+	void DeSelect(int ID) {particles[ID]->SetSelected(false);}
+	bool IsSelected(int ID) {return particles[ID]->IsSelected();}
+
+	void Update();
+	void SetScreenSize(int xSize, int ySize);
 
 private:
 	int maxParticles;
 	particle **particles;
 	bool *spaces;
+	int xSize, ySize;
 
 };
 

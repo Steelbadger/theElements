@@ -19,21 +19,27 @@
 class particle
 {
 public:
-	enum type {UP_QUARK, DOWN_QUARK, TOP_QUARK, BOTTOM_QUARK, STRANGE_QUARK, CHARM_QUARK};
+	enum type {NONE, UP_QUARK, DOWN_QUARK, TOP_QUARK, BOTTOM_QUARK, STRANGE_QUARK, CHARM_QUARK, GLUON};
 	particle(type particleType);
 	~particle(void);
 	void Draw(HDC bitmapHDC, HDC backHDC) {image->Draw(bitmapHDC, backHDC);}
 	void Move(sprite::direction dir) {image->Move(dir);}
 	void SetLocation(int x, int y){image->SetLocation(x,y);}
-	void Update();
-	void SetSelected(bool s){image->SetSelected(s);}
-	bool IsSelected(){return image->IsSelected();}
+	void Update(int x, int y);
+	void Drag(int x, int y);
+	void SetSelected(bool s){selected = s;}
+	bool IsSelected(){return selected;}
+	int GetX() {return image->GetX();}
+	int GetY() {return image->GetY();}
+	int GetWidth() {return image->GetWidth();}
+	int GetHeight() {return image->GetHeight();}
 private:
 	float mass;
 	int charge[2];
 	int spin[2];
 	std::string name;
 	sprite *image;
+	bool selected;
 
 };
 

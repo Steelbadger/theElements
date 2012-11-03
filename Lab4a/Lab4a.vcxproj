@@ -61,6 +61,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="gameUI.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -72,6 +73,7 @@
     <ClCompile Include="theElements.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="button.h" />
     <ClInclude Include="gameUI.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="menu.h" />

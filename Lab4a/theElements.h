@@ -39,6 +39,7 @@ private:
 	particle_controller particles;
 	menu menu;
 	gameUI HUD;
+	int current;
 
 	bool WaitFor(unsigned long delay);
 	HBITMAP		theOldFrontBitMap, theOldBackBitMap;
