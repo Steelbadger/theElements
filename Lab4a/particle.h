@@ -24,15 +24,20 @@ public:
 	~particle(void);
 	void Draw(HDC bitmapHDC, HDC backHDC) {image->Draw(bitmapHDC, backHDC);}
 	void Move(sprite::direction dir) {image->Move(dir);}
+	void Move(float deltaX, float deltaY) {image->Move(deltaX, deltaY);}
+	void AddForce(float x, float y) {xForce += x; yForce += y;}
+	void SetForce(float x, float y) {xForce = x; yForce = y;}
+	void MoveUnderForce();
 	void SetLocation(int x, int y){image->SetLocation(x,y);}
 	void Update(int x, int y);
 	void Drag(int x, int y);
 	void SetSelected(bool s){selected = s;}
 	bool IsSelected(){return selected;}
-	int GetX() {return image->GetX();}
-	int GetY() {return image->GetY();}
+	float GetX() {return image->GetX();}
+	float GetY() {return image->GetY();}
 	int GetWidth() {return image->GetWidth();}
 	int GetHeight() {return image->GetHeight();}
+
 private:
 	float mass;
 	int charge[2];
@@ -40,6 +45,9 @@ private:
 	std::string name;
 	sprite *image;
 	bool selected;
+	float xForce, yForce;
+	float xVelocity, yVelocity;
+	unsigned long time;
 
 };
 

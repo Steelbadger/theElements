@@ -33,7 +33,9 @@ public:
 	void DeSelect(int ID) {particles[ID]->SetSelected(false);}
 	bool IsSelected(int ID) {return particles[ID]->IsSelected();}
 
-	void Update();
+	void SimulateParticles();
+
+	void Update(int mouseX, int mouseY);
 	void SetScreenSize(int xSize, int ySize);
 
 private:
@@ -41,6 +43,9 @@ private:
 	particle **particles;
 	bool *spaces;
 	int xSize, ySize;
+	int mouseX, mouseY;
+
+	static const int G = 10;
 
 };
 

@@ -32,7 +32,7 @@ void theElements::HandleDelayedInput(unsigned long x)
 	if (WaitFor(x))
 	{	
 		HUD.Update(input.GetMouseX(), input.GetMouseY());
-		particles.Update();
+		particles.Update(input.GetMouseX(), input.GetMouseY());
 	}
 	
 }

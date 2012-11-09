@@ -119,12 +119,31 @@ bool particle_controller::IsParticle(int i)
 	return !spaces[i];
 }
 
-void particle_controller::Update()
+void particle_controller::Update(int x, int y)
 {
+	mouseX = x;
+	mouseY = y;
+	SimulateParticles();
+
+}
+
+void particle_controller::SetScreenSize(int x, int y)
+{
+	xSize = x;
+	ySize = y;
+}
+
+void particle_controller::SimulateParticles()
+{
+
+	float xdist, ydist = 0;
+
 	for (int i = 0; i < maxParticles; i++)
 	{
 		if (!spaces[i]) {
+
 			if (particles[i]->IsSelected() == false){
+/*
 				if (particles[i]->GetX() > xSize/2 - particles[i]->GetWidth()/2) {
 					particles[i]->Move(sprite::LEFT);
 				} else {
@@ -135,14 +154,36 @@ void particle_controller::Update()
 				} else {
 					particles[i]->Move(sprite::DOWN);
 				}
+*/
+				xdist = particles[i]->GetX() - xSize/2;
+				ydist = particles[i]->GetY() - ySize/2;
+				particles[i]->SetForce(0,0);
+				if (xdist > 0)
+					particles[i]->AddForce(-G * xdist, 0);
+				if (xdist < 0)
+					particles[i]->AddForce(G * xdist, 0);
+				if (ydist > 0)
+					particles[i]->AddForce(0, -G * ydist);
+				if (ydist < 0)
+					particles[i]->AddForce(0, G*ydist);
+
+				for (int j = 0; j < maxParticles; j++) {
+					if (!spaces[j]) {
+						xdist = particles[i]->GetX() - particles[j]->GetX();
+						ydist = particles[i]->GetY() - particles[j]->GetY();
+						if (xdist > 0)
+							particles[i]->AddForce(G/(xdist*xdist), 0);
+						if (xdist < 0)
+							particles[i]->AddForce(-G/(xdist*xdist), 0);
+						if (ydist > 0)
+							particles[i]->AddForce(0, G/(ydist*ydist));
+						if (ydist < 0)
+							particles[i]->AddForce(0, -G/(ydist*ydist));
+					}
+				}
+
+				particles[i]->Update(mouseX, mouseY);
 			}
 		}
-	}
-
-}
-
-void particle_controller::SetScreenSize(int x, int y)
-{
-	xSize = x;
-	ySize = y;
+	}	
 }

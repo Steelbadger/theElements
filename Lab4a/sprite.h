@@ -16,6 +16,7 @@ public:
 	~sprite(void);
 	void Draw(HDC bitmapHDC, HDC backHDC);
 	void Move(direction dir);
+	void Move(float deltaX, float deltaY) {x+=deltaX; y+=deltaY;}
 	void SetLocation(int xpos, int ypos) {x = xpos; y = ypos;}
 	void SetSelected(bool s);
 	bool IsSelected(){return currentSelection;}
@@ -23,10 +24,10 @@ public:
 	bool MouseOver(int xMouse, int yMouse);
 	int GetWidth() {return w;}
 	int GetHeight() {return h;}
-	int GetX() {return x;}
-	int GetY() {return y;}
+	float GetX() {return x;}
+	float GetY() {return y;}
 private:
-	int x, y;
+	float x, y;
 	int w, h;
 	HBITMAP bitmap;
 	HBITMAP transparencyMask;

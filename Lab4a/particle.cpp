@@ -14,8 +14,14 @@
 #include <windows.h>
 #endif
 
+#include <time.h>
 
-particle::particle(type particleType)
+
+particle::particle(type particleType) :
+	xForce(0),
+	yForce(0),
+	xVelocity(0),
+	yVelocity(0)
 {
 	switch (particleType)
 	{
@@ -93,13 +99,33 @@ void particle::Update(int x, int y)
 {
 	if (IsSelected() == true)
 	{
+		time = clock();
 		SetLocation(x, y);
 	} else {
-
+		MoveUnderForce();
 	}
 }
 
 void particle::Drag(int x, int y)
 {
+
+}
+
+void particle::MoveUnderForce()
+{
+	float deltaT = ((float)(clock() - time))/CLOCKS_PER_SEC;
+	time = clock();
+	if (deltaT > 1) {
+		deltaT = 1;
+	}
+
+
+	float xMov = (xVelocity * deltaT) + (0.5 * xForce * deltaT * deltaT);
+	float yMov = (yVelocity * deltaT) + (0.5 * yForce * deltaT * deltaT);
+
+	xVelocity = xMov/deltaT;
+	yVelocity = yMov/deltaT;
+
+	Move(xMov,yMov);
 
 }
