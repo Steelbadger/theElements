@@ -19,7 +19,7 @@
 class particle
 {
 public:
-	enum type {NONE, UP_QUARK, DOWN_QUARK, TOP_QUARK, BOTTOM_QUARK, STRANGE_QUARK, CHARM_QUARK, GLUON};
+	enum type {NONE, UP_QUARK, DOWN_QUARK, TOP_QUARK, BOTTOM_QUARK, STRANGE_QUARK, CHARM_QUARK, GLUON, ELECTRON, PROTON, NEUTRON};
 	particle(type particleType);
 	~particle(void);
 	void Draw(HDC bitmapHDC, HDC backHDC) {image->Draw(bitmapHDC, backHDC);}
@@ -37,11 +37,13 @@ public:
 	float GetY() {return image->GetY();}
 	int GetWidth() {return image->GetWidth();}
 	int GetHeight() {return image->GetHeight();}
+	int GetPrimID() {return primID;}
 
 private:
 	float mass;
 	int charge[2];
 	int spin[2];
+	int primID;
 	std::string name;
 	sprite *image;
 	bool selected;

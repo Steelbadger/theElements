@@ -175,3 +175,27 @@ void particle_controller::UpdateAllParticles()
 		}
 	}	
 }
+
+void particle_controller::DetectCompositeParticles()
+{
+	int primsum = 0;
+	for (int i = 0; i < maxParticles; i++) {
+		if (!spaces[i]) {
+			primsum *= particles[i]->GetPrimID();
+		}
+	}
+
+	switch (primsum) {
+		case 12:
+			//  Proton
+			break;
+		case 18:
+			//  Neutron
+			break;
+
+
+
+
+	}
+
+}

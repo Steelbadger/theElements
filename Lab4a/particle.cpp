@@ -33,6 +33,7 @@ particle::particle(type particleType) :
 			spin[1] = 2;
 			name = "Up Quark";
 			image = new sprite("UpQuark.bmp");
+			primID = 2;
 			break;
 		case DOWN_QUARK:
 			mass = 4.8*1000000;
@@ -42,6 +43,7 @@ particle::particle(type particleType) :
 			spin[1] = 2;
 			name = "Down Quark";
 			image = new sprite("DownQuark.bmp");
+			primID = 3;
 			break;
 		case TOP_QUARK:
 			mass = 171.2*1000000000;
@@ -51,6 +53,7 @@ particle::particle(type particleType) :
 			spin[1] = 2;
 			name = "Top Quark";
 			image = new sprite("TopQuark.bmp");
+			primID = 0;
 			break;
 		case BOTTOM_QUARK:
 			mass = 4.2*1000000000;
@@ -60,6 +63,7 @@ particle::particle(type particleType) :
 			spin[1] = 2;
 			name = "Bottom Quark";
 			image = new sprite("BottomQuark.bmp");
+			primID = 0;
 			break;
 		case STRANGE_QUARK:
 			mass = 104*1000000;
@@ -69,6 +73,7 @@ particle::particle(type particleType) :
 			spin[1] = 2;
 			name = "Strange Quark";
 			image = new sprite("StrangeQuark.bmp");
+			primID = 0;
 			break;
 		case CHARM_QUARK:
 			mass = 1.27*1000000000;
@@ -78,6 +83,7 @@ particle::particle(type particleType) :
 			spin[1] = 2;
 			name = "Charm Quark";
 			image = new sprite("CharmQuark.bmp");
+			primID = 0;
 			break;
 		case GLUON:
 			mass = 0;
@@ -87,6 +93,37 @@ particle::particle(type particleType) :
 			spin[1] = 1;
 			name = "Gluon";
 			image = new sprite("gluon.bmp");
+			primID = 5;
+			break;
+		case ELECTRON:
+			mass = 0.511 * 1000000;
+			charge[0] = -1;
+			charge[1] = 1;
+			spin[0] = 1;
+			spin[1] = 2;
+			name = "Electron";
+			image = new sprite("gluon.bmp");
+			primID = 7;
+			break;
+		case PROTON:
+			mass = 938 * 1000000;
+			charge[0] = 1;
+			charge[1] = 1;
+			spin[0] = 1;
+			spin[1] = 2;
+			name = "Proton";
+			image = new sprite("gluon.bmp");
+			primID = 11;
+			break;
+		case NEUTRON:
+			mass = 939 * 1000000;
+			charge[0] = 0;
+			charge[1] = 1;
+			spin[0] = 1;
+			spin[1] = 2;
+			name = "Neutron";
+			image = new sprite("gluon.bmp");
+			primID = 13;
 			break;
 	}
 }

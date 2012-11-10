@@ -34,6 +34,7 @@ public:
 	bool IsSelected(int ID) {return particles[ID]->IsSelected();}
 
 	void SimulateParticles();
+	void DetectCompositeParticles();
 
 	void Update(int mouseX, int mouseY);
 	void SetScreenSize(int xSize, int ySize);
