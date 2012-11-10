@@ -39,13 +39,12 @@ public:
 	void SetScreenSize(int xSize, int ySize);
 
 private:
+	void UpdateAllParticles();
 	int maxParticles;
 	particle **particles;
 	bool *spaces;
 	int xSize, ySize;
 	int mouseX, mouseY;
-
-	static const int G = 10;
 
 };
 

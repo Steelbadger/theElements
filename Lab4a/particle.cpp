@@ -100,7 +100,7 @@ void particle::Update(int x, int y)
 	if (IsSelected() == true)
 	{
 		time = clock();
-		SetLocation(x, y);
+		SetLocation(x-image->GetWidth()/2, y - image->GetHeight()/2);
 	} else {
 		MoveUnderForce();
 	}
@@ -117,14 +117,16 @@ void particle::MoveUnderForce()
 	time = clock();
 	if (deltaT > 1) {
 		deltaT = 1;
+	} else if (deltaT == 0) {
+		deltaT = 1;
 	}
 
 
 	float xMov = (xVelocity * deltaT) + (0.5 * xForce * deltaT * deltaT);
 	float yMov = (yVelocity * deltaT) + (0.5 * yForce * deltaT * deltaT);
 
-	xVelocity = xMov/deltaT;
-	yVelocity = yMov/deltaT;
+	xVelocity = xMov*deltaT;
+	yVelocity = yMov*deltaT;
 
 	Move(xMov,yMov);
 

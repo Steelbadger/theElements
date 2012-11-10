@@ -160,9 +160,10 @@ void theElements::RunGame()
 		HandleDelayedInput(5);
 
 
-		if (particles.IsParticle(current))
-			if (particles.IsSelected(current))
-				particles.SetLocation(current, input.GetMouseX()-64, input.GetMouseY()-64);
+	//	if (particles.IsParticle(current))
+	//		if (particles.IsSelected(current))
+	//			particles.SetLocation(current, input.GetMouseX()-64, input.GetMouseY()-64);
+		particles.Update(input.GetMouseX(), input.GetMouseY());
 		particles.DrawAll(bitmapHDC, backHDC);
 		HUD.Display(bitmapHDC, backHDC);
 		displayFrame();

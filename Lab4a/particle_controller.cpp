@@ -1,4 +1,5 @@
 #include "particle_controller.h"
+#include <math.h>
 #ifndef _PARTICLE_H_
 #define _PARTICLE_H_
 #include "particle.h"
@@ -124,6 +125,7 @@ void particle_controller::Update(int x, int y)
 	mouseX = x;
 	mouseY = y;
 	SimulateParticles();
+	UpdateAllParticles();
 
 }
 
@@ -136,54 +138,40 @@ void particle_controller::SetScreenSize(int x, int y)
 void particle_controller::SimulateParticles()
 {
 
-	float xdist, ydist = 0;
+	float xdist, ydist, res = 0;
+	float G = 3.5;
 
 	for (int i = 0; i < maxParticles; i++)
 	{
 		if (!spaces[i]) {
 
 			if (particles[i]->IsSelected() == false){
-/*
-				if (particles[i]->GetX() > xSize/2 - particles[i]->GetWidth()/2) {
-					particles[i]->Move(sprite::LEFT);
-				} else {
-					particles[i]->Move(sprite::RIGHT);
-				}
-				if (particles[i]->GetY() > ySize/2- particles[i]->GetHeight()/2) {
-					particles[i]->Move(sprite::UP);
-				} else {
-					particles[i]->Move(sprite::DOWN);
-				}
-*/
-				xdist = particles[i]->GetX() - xSize/2;
-				ydist = particles[i]->GetY() - ySize/2;
+				xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - xSize/2;
+				ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - ySize/2;
 				particles[i]->SetForce(0,0);
-				if (xdist > 0)
-					particles[i]->AddForce(-G * xdist, 0);
-				if (xdist < 0)
-					particles[i]->AddForce(G * xdist, 0);
-				if (ydist > 0)
-					particles[i]->AddForce(0, -G * ydist);
-				if (ydist < 0)
-					particles[i]->AddForce(0, G*ydist);
-
-				for (int j = 0; j < maxParticles; j++) {
-					if (!spaces[j]) {
-						xdist = particles[i]->GetX() - particles[j]->GetX();
-						ydist = particles[i]->GetY() - particles[j]->GetY();
-						if (xdist > 0)
-							particles[i]->AddForce(G/(xdist*xdist), 0);
-						if (xdist < 0)
-							particles[i]->AddForce(-G/(xdist*xdist), 0);
-						if (ydist > 0)
-							particles[i]->AddForce(0, G/(ydist*ydist));
-						if (ydist < 0)
-							particles[i]->AddForce(0, -G/(ydist*ydist));
+				particles[i]->AddForce(-xdist/1000, -ydist/1000);
+				for (int j = 0; j < maxParticles; j++)
+				{
+					if (!spaces[j] && j != i) {
+						xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - (particles[j]->GetX()+particles[j]->GetWidth()/2);
+						ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - (particles[j]->GetY()+particles[j]->GetHeight()/2);
+						res = xdist*xdist + ydist*ydist;
+						particles[i]->AddForce((xdist/res)*G, (ydist/res)*G);
+						
 					}
-				}
+				}	
 
-				particles[i]->Update(mouseX, mouseY);
 			}
+		}
+	}	
+}
+
+void particle_controller::UpdateAllParticles()
+{
+
+	for (int i = 0; i < maxParticles; i++) {
+		if (!spaces[i]) {
+			particles[i]->Update(mouseX, mouseY);
 		}
 	}	
 }
