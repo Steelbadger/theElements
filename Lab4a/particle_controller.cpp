@@ -127,8 +127,10 @@ void particle_controller::Update(int x, int y)
 {
 	mouseX = x;
 	mouseY = y;
+	if (ParticlesInMotion() == false) {
+		DetectCompositeParticles();
+	}
 	SimulateParticles();
-//	DetectCompositeParticles();
 	UpdateAllParticles();
 
 }
@@ -208,4 +210,15 @@ void particle_controller::DetectCompositeParticles()
 		DeSelect(i);
 		particles[i]->SetLocation(xSize/2 - particles[i]->GetWidth()/2, ySize/2 - particles[i]->GetHeight()/2);
 	}
+}
+
+bool particle_controller::ParticlesInMotion()
+{
+	for (int i = 0; i < maxParticles; i++) {
+		if (!spaces[i]) {
+			if (particles[i]->IsMoving())
+				return true;
+		}
+	}
+	return false;
 }

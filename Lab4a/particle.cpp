@@ -174,3 +174,11 @@ void particle::Move(float deltaX, float deltaY)
 {
 	image->Move(deltaX, deltaY);
 }
+
+bool particle::IsMoving()
+{
+	if (abs(xVelocity) > 0.0000001 || abs(yVelocity) > 0.0000001)
+		return true;
+	else
+		return false;
+}

@@ -39,6 +39,7 @@ public:
 	int GetHeight() {return image->GetHeight();}
 	int GetPrimID() {return primID;}
 	type GetType() {return particleType;}
+	bool IsMoving();
 
 private:
 	float mass;

@@ -32,6 +32,7 @@ public:
 	void SetSelected(int ID) {particles[ID]->SetSelected(true);}
 	void DeSelect(int ID) {particles[ID]->SetSelected(false);}
 	bool IsSelected(int ID) {return particles[ID]->IsSelected();}
+	bool ParticlesInMotion();
 
 	void SimulateParticles();
 	void DetectCompositeParticles();
