@@ -46,6 +46,7 @@ private:
 	bool *spaces;
 	int xSize, ySize;
 	int mouseX, mouseY;
+	bool gluonPresent;
 
 };
 

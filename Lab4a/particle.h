@@ -24,7 +24,7 @@ public:
 	~particle(void);
 	void Draw(HDC bitmapHDC, HDC backHDC) {image->Draw(bitmapHDC, backHDC);}
 	void Move(sprite::direction dir) {image->Move(dir);}
-	void Move(float deltaX, float deltaY) {image->Move(deltaX, deltaY);}
+	void Move(float deltaX, float deltaY);
 	void AddForce(float x, float y) {xForce += x; yForce += y;}
 	void SetForce(float x, float y) {xForce = x; yForce = y;}
 	void MoveUnderForce();
@@ -38,6 +38,7 @@ public:
 	int GetWidth() {return image->GetWidth();}
 	int GetHeight() {return image->GetHeight();}
 	int GetPrimID() {return primID;}
+	type GetType() {return particleType;}
 
 private:
 	float mass;
@@ -50,6 +51,7 @@ private:
 	float xForce, yForce;
 	float xVelocity, yVelocity;
 	unsigned long time;
+	type particleType;
 
 };
 

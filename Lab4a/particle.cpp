@@ -17,13 +17,14 @@
 #include <time.h>
 
 
-particle::particle(type particleType) :
+particle::particle(type type) :
 	xForce(0),
 	yForce(0),
 	xVelocity(0),
-	yVelocity(0)
+	yVelocity(0),
+	particleType(type)
 {
-	switch (particleType)
+	switch (type)
 	{
 		case UP_QUARK:
 			mass = 2.4*1000000;
@@ -112,7 +113,7 @@ particle::particle(type particleType) :
 			spin[0] = 1;
 			spin[1] = 2;
 			name = "Proton";
-			image = new sprite("gluon.bmp");
+			image = new sprite("Proton.bmp");
 			primID = 11;
 			break;
 		case NEUTRON:
@@ -122,7 +123,7 @@ particle::particle(type particleType) :
 			spin[0] = 1;
 			spin[1] = 2;
 			name = "Neutron";
-			image = new sprite("gluon.bmp");
+			image = new sprite("Neutron.bmp");
 			primID = 13;
 			break;
 	}
@@ -167,4 +168,9 @@ void particle::MoveUnderForce()
 
 	Move(xMov,yMov);
 
+}
+
+void particle::Move(float deltaX, float deltaY)
+{
+	image->Move(deltaX, deltaY);
 }
