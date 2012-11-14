@@ -134,3 +134,16 @@ HBITMAP sprite::CreateBitmapMask(HBITMAP hbmColour, COLORREF crTransparent)
 
     return hbmMask;
 }
+
+void sprite::ScaleDraw(float i, HDC bitmapHDC, HDC backHDC)
+{
+	HBITMAP originalBitMap;
+	originalBitMap = (HBITMAP)SelectObject(bitmapHDC,bitmap);
+
+	SelectObject(bitmapHDC, transparencyMask);
+	StretchBlt(backHDC, x-(w*i/2), y-(h*i/2), w*i, h*i, bitmapHDC, 0, 0, w, h, SRCAND);
+	SelectObject(bitmapHDC, bitmap);
+	StretchBlt(backHDC, x-(w*i/2), y-(h*i/2), x + w*i/2, x + h*i/2, bitmapHDC, 0, 0, w, h, SRCPAINT);
+
+	SelectObject(bitmapHDC,originalBitMap); 
+}

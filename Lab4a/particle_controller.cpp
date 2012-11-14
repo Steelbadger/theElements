@@ -222,3 +222,8 @@ bool particle_controller::ParticlesInMotion()
 	}
 	return false;
 }
+
+void particle_controller::AnimateParticleCreation(int ID, HDC bitmapHDC, HDC backHDC)
+{
+	particles[ID]->AnimatedCreation(bitmapHDC, backHDC);
+}

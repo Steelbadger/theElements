@@ -26,6 +26,8 @@ public:
 	int GetHeight() {return h;}
 	float GetX() {return x;}
 	float GetY() {return y;}
+
+	void ScaleDraw(float ScalingFactor, HDC bitmapHDC, HDC backHDC);
 private:
 	float x, y;
 	int w, h;

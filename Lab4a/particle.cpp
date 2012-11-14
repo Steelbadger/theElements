@@ -182,3 +182,8 @@ bool particle::IsMoving()
 	else
 		return false;
 }
+
+void particle::AnimatedCreation(HDC bitmapHDC, HDC backHDC)
+{
+	for (int i 
+}

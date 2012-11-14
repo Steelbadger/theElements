@@ -41,6 +41,8 @@ public:
 	type GetType() {return particleType;}
 	bool IsMoving();
 
+	void AnimatedCreation(HDC bitmapHDC, HDC backHDC);
+	
 private:
 	float mass;
 	int charge[2];
