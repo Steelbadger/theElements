@@ -14,6 +14,7 @@ sprite::sprite(LPSTR szFileName)
 	w = bmap.bmWidth;
 	h = bmap.bmHeight;
 	transparencyMask = CreateBitmapMask(bitmap, RGB(255,255,255));
+	frame = 400;
 }
 
 sprite::sprite(LPSTR szFileName, int i, int j)
@@ -26,6 +27,7 @@ sprite::sprite(LPSTR szFileName, int i, int j)
 	w = bmap.bmWidth;
 	h = bmap.bmHeight;
 	transparencyMask = CreateBitmapMask(bitmap, RGB(255,255,255));
+	frame = 400;
 }
 
 
@@ -38,12 +40,21 @@ void sprite::Draw(HDC bitmapHDC, HDC backHDC)
 	HBITMAP originalBitMap;
 	originalBitMap = (HBITMAP)SelectObject(bitmapHDC,bitmap);
 
-	SelectObject(bitmapHDC, transparencyMask);
-	BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCAND);
-	SelectObject(bitmapHDC, bitmap);
-	BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCPAINT);
+	if (frame < 400) {
+		float i = 600.0/ (200.0 + frame);
+		SelectObject(bitmapHDC, transparencyMask);
+		StretchBlt(backHDC, x+((w-(w*i))/2), y+((h-(h*i))/2), w*i, h*i, bitmapHDC, 0, 0, w, h, SRCAND);
+		SelectObject(bitmapHDC, bitmap);
+		StretchBlt(backHDC, x+((w-(w*i))/2), y+((h-(h*i))/2), w*i, h*i, bitmapHDC, 0, 0, w, h, SRCPAINT);
+		frame++;
+	} else {
+		SelectObject(bitmapHDC, transparencyMask);
+		BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCAND);
+		SelectObject(bitmapHDC, bitmap);
+		BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCPAINT);
+	}
 
-	SelectObject(bitmapHDC,originalBitMap); 
+	SelectObject(bitmapHDC,originalBitMap);
 }
 
 void sprite::Move(sprite::direction dir)

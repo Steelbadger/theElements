@@ -21,7 +21,7 @@ class particle
 public:
 	enum type {NONE, UP_QUARK, DOWN_QUARK, TOP_QUARK, BOTTOM_QUARK, STRANGE_QUARK, CHARM_QUARK, GLUON, ELECTRON, PROTON, NEUTRON};
 	particle(type particleType);
-	~particle(void);
+	~particle(void);	
 	void Draw(HDC bitmapHDC, HDC backHDC) {image->Draw(bitmapHDC, backHDC);}
 	void Move(sprite::direction dir) {image->Move(dir);}
 	void Move(float deltaX, float deltaY);
@@ -41,7 +41,7 @@ public:
 	type GetType() {return particleType;}
 	bool IsMoving();
 
-	void AnimatedCreation(HDC bitmapHDC, HDC backHDC);
+	void AnimatedCreation();
 	
 private:
 	float mass;

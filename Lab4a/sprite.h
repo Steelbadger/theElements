@@ -26,6 +26,7 @@ public:
 	int GetHeight() {return h;}
 	float GetX() {return x;}
 	float GetY() {return y;}
+	void SetAnimated(){frame = 0;}
 
 	void ScaleDraw(float ScalingFactor, HDC bitmapHDC, HDC backHDC);
 private:
@@ -36,6 +37,7 @@ private:
 	HBITMAP CreateBitmapMask(HBITMAP hbmColour, COLORREF crTransparent);
 	bool selected;
 	bool currentSelection;
+	int frame;
 };
 
 #endif

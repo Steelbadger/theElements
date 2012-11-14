@@ -36,7 +36,6 @@ public:
 
 	void SimulateParticles();
 	void DetectCompositeParticles();
-	void AnimateParticleCreation(int ID, HDC bitmapHDC, HDC backHDC);
 
 	void Update(int mouseX, int mouseY);
 	void SetScreenSize(int xSize, int ySize);

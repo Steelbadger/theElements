@@ -183,7 +183,8 @@ bool particle::IsMoving()
 		return false;
 }
 
-void particle::AnimatedCreation(HDC bitmapHDC, HDC backHDC)
+void particle::AnimatedCreation()
 {
-	for (int i 
+	image->SetAnimated();
+
 }

@@ -199,10 +199,12 @@ void particle_controller::DetectCompositeParticles()
 			//  Proton
 			DeleteParticles();
 			i = CreateNew(particle::PROTON);
+			particles[i]->AnimatedCreation();
 			break;
 		case 90:
 			DeleteParticles();
 			i = CreateNew(particle::NEUTRON);
+			particles[i]->AnimatedCreation();
 			break;
 	}
 
@@ -221,9 +223,4 @@ bool particle_controller::ParticlesInMotion()
 		}
 	}
 	return false;
-}
-
-void particle_controller::AnimateParticleCreation(int ID, HDC bitmapHDC, HDC backHDC)
-{
-	particles[ID]->AnimatedCreation(bitmapHDC, backHDC);
 }
