@@ -11,8 +11,11 @@ class sprite
 {
 public:
 	enum direction {UP, DOWN, LEFT, RIGHT};
+	sprite();
 	sprite(LPSTR szFileName);
 	sprite(LPSTR szFileName, int x, int y);
+	sprite(LPSTR szFileName, LPSTR szMaskName, int x, int y);
+	void SetSprite(LPSTR szFileName);
 	~sprite(void);
 	void Draw(HDC bitmapHDC, HDC backHDC);
 	void Move(direction dir);
@@ -21,6 +24,7 @@ public:
 	void SetSelected(bool s);
 	bool IsSelected(){return currentSelection;}
 	bool OnClick(int xClick, int yClick);
+	void OnRelease();
 	bool MouseOver(int xMouse, int yMouse);
 	int GetWidth() {return w;}
 	int GetHeight() {return h;}

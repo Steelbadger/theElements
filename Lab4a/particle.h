@@ -40,6 +40,8 @@ public:
 	int GetPrimID() {return primID;}
 	type GetType() {return particleType;}
 	bool IsMoving();
+	bool OnClick(int xClick, int yClick);
+	void OnRelease(){SetSelected(false); image->OnRelease();}
 
 	void AnimatedCreation();
 	

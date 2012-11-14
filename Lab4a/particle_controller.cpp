@@ -224,3 +224,36 @@ bool particle_controller::ParticlesInMotion()
 	}
 	return false;
 }
+
+int particle_controller::OnClick(int xClick, int yClick)
+{
+	for (int i = maxParticles-1; i >= 0; i--) {
+		if (!spaces[i]) {
+			if (particles[i]->OnClick(xClick, yClick)){
+				return i;
+			}
+		}
+	}
+	return maxParticles;
+}
+
+void particle_controller::OnRelease()
+{
+	for (int i = 0; i < maxParticles; i++) {
+		if (!spaces[i]) {
+			particles[i]->OnRelease();
+		}
+	}
+}
+
+void particle_controller::DestroyFirstParticleAtMouse()
+{
+	for (int i = 0; i < maxParticles; i++) {
+		if (!spaces[i]) {
+			if (particles[i]->OnClick(mouseX, mouseY)){
+				DeleteParticle(i);
+				break;
+			}
+		}
+	}
+}

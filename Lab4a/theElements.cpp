@@ -5,7 +5,8 @@ theElements::theElements(void):
 	particles(MAXSIZE),
 	currentState(SplashScreen),
 	running(true),
-	HUD(840, 620)
+	HUD(840, 620),
+	current(7)
 {
 }
 
@@ -17,13 +18,27 @@ theElements::~theElements(void)
 void theElements::HandleInstantInput()
 {
 			input.Update();
+			HUD.SetMouseLoc(input.GetMouseX(), input.GetMouseY());
 
 			if (input.ReportLMousePress() && particles.SpaceRemaining() && HUD.ReturnParticleCreation() != particle::NONE)
 			{
 				current = particles.CreateNew(HUD.ReturnParticleCreation());
 				particles.SetSelected(current);
-			} else if (input.ReportLMouseRelease() && particles.IsParticle(current)) {
-				particles.DeSelect(current);
+			} else if (input.ReportLMouseRelease()) {
+				particles.OnRelease();
+				if (current != 7 && HUD.MouseOver()) {
+					if (HUD.OnMouseRelease(particles.SelectedParticle(current))){
+						particles.DeleteParticle(current);
+						current = 7;
+					}
+
+				}
+			} else if (input.ReportLMousePress()) {
+				current = particles.OnClick(input.GetMouseX(), input.GetMouseY());
+			}
+
+			if (input.ReportRMouseRelease()) {
+				particles.DestroyFirstParticleAtMouse();
 			}
 }
 

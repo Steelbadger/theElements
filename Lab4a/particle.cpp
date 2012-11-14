@@ -103,7 +103,7 @@ particle::particle(type type) :
 			spin[0] = 1;
 			spin[1] = 2;
 			name = "Electron";
-			image = new sprite("gluon.bmp");
+			image = new sprite("electron.bmp");
 			primID = 7;
 			break;
 		case PROTON:
@@ -146,7 +146,9 @@ void particle::Update(int x, int y)
 
 void particle::Drag(int x, int y)
 {
-
+	if (selected == true) {
+		SetLocation(x,y);
+	}
 }
 
 void particle::MoveUnderForce()
@@ -186,5 +188,17 @@ bool particle::IsMoving()
 void particle::AnimatedCreation()
 {
 	image->SetAnimated();
+
+}
+
+bool particle::OnClick(int x, int y)
+{
+	if (image->OnClick(x, y)) {
+		selected = true;
+		return true;
+	} else {
+		selected = false;
+		return false;
+	}
 
 }

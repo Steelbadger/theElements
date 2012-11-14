@@ -21,18 +21,15 @@ public:
 	void SetMouseLoc(int x, int y){mouseX = x; mouseY = y;}
 	void SetDisplaySize(int w, int h);
 	particle::type ReturnParticleCreation();
+	bool MouseOver(){return bottomMenu.MouseOver(mouseX, mouseY);}
+
+	bool OnMouseRelease(particle::type p);
 
 private:
 	int width, height;
 	int offset;
 	int mouseX, mouseY;
 	sprite bottomMenu;
-	button upQuark;
-	button downQuark;
-	button topQuark;
-	button bottomQuark;
-	button charmQuark;
-	button strangeQuark;
-	button gluon;
+	button* buttons[7];
 };
 

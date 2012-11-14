@@ -4,6 +4,12 @@
 #include <windows.h>
 #endif
 
+sprite::sprite()
+{
+	x = 0;
+	y = 0;
+}
+
 sprite::sprite(LPSTR szFileName)
 {
 	BITMAP bmap;
@@ -30,6 +36,31 @@ sprite::sprite(LPSTR szFileName, int i, int j)
 	frame = 400;
 }
 
+
+sprite::sprite(LPSTR szFileName, LPSTR szMaskName, int i, int j)
+{
+	BITMAP bmap;
+	x = i;
+	y = j;
+	bitmap = (HBITMAP)LoadImage(NULL, szFileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	GetObject(bitmap,sizeof(bmap), &bmap);
+	w = bmap.bmWidth;
+	h = bmap.bmHeight;
+	transparencyMask = (HBITMAP)LoadImage(NULL, szMaskName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	frame = 400;
+}
+
+void sprite::SetSprite(LPSTR szFileName)
+{
+	BITMAP bmap;
+	bitmap = (HBITMAP)LoadImage(NULL, szFileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	GetObject(bitmap,sizeof(bmap), &bmap);
+	w = bmap.bmWidth;
+	h = bmap.bmHeight;
+	transparencyMask = CreateBitmapMask(bitmap, RGB(255,255,255));
+	frame = 400;
+
+}
 
 sprite::~sprite(void)
 {
@@ -90,7 +121,11 @@ bool sprite::OnClick(int xClick, int yClick)
 		SetSelected(false);
 		return false;
 	}
+}
 
+void sprite::OnRelease()
+{
+	SetSelected(false);
 }
 
 bool sprite::MouseOver(int xMouse, int yMouse)

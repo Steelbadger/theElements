@@ -33,9 +33,13 @@ public:
 	void DeSelect(int ID) {particles[ID]->SetSelected(false);}
 	bool IsSelected(int ID) {return particles[ID]->IsSelected();}
 	bool ParticlesInMotion();
+	int OnClick(int xClick, int yClick);
+	void OnRelease();
+	particle::type SelectedParticle(int ID){return particles[ID]->GetType();}
 
 	void SimulateParticles();
 	void DetectCompositeParticles();
+	void DestroyFirstParticleAtMouse();
 
 	void Update(int mouseX, int mouseY);
 	void SetScreenSize(int xSize, int ySize);
