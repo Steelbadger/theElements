@@ -174,7 +174,18 @@ void particle::MoveUnderForce()
 
 void particle::Move(float deltaX, float deltaY)
 {
-	image->Move(deltaX, deltaY);
+	if (image->GetX() + deltaX > 0 && image->GetX() + deltaX < (screenX-image->GetWidth())) {
+		image->Move(deltaX, 0);
+	}
+	if (image->GetY() + deltaY > 0 && image->GetY() + deltaY < (screenY - image->GetHeight())) {
+		image->Move(0, deltaY);
+	}
+}
+
+void particle::SetScreenSize(int x, int y)
+{
+	screenX = x;
+	screenY = y;
 }
 
 bool particle::IsMoving()

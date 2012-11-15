@@ -44,6 +44,7 @@ public:
 	void OnRelease(){SetSelected(false); image->OnRelease();}
 
 	void AnimatedCreation();
+	void SetScreenSize(int x, int y);
 	
 private:
 	float mass;
@@ -57,6 +58,7 @@ private:
 	float xVelocity, yVelocity;
 	unsigned long time;
 	type particleType;
+	int screenX, screenY;
 
 };
 

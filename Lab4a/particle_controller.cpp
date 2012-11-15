@@ -33,6 +33,7 @@ int particle_controller::CreateNew(particle::type type)
 		{
 			particles[i] = new particle(type);
 			spaces[i] = false;
+			particles[i]->SetScreenSize(xSize, ySize);
 			if (type == particle::GLUON)
 				gluonPresent = true;
 			return i;
@@ -142,6 +143,12 @@ void particle_controller::SetScreenSize(int x, int y)
 {
 	xSize = x;
 	ySize = y;
+	for (int i = 0; i < maxParticles; i++)
+	{
+		if (!spaces[i])
+			particles[i]->SetScreenSize(x, y);
+	}
+
 }
 
 void particle_controller::SimulateParticles()
@@ -149,15 +156,24 @@ void particle_controller::SimulateParticles()
 
 	float xdist, ydist, res = 0;
 	float G = 3.5;
+	int count = 0;
+
+	for (int i = 0; i < maxParticles; i++) {
+		if (!spaces[i]) {
+			count++;
+		}
+	}
 
 	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i]) {
 			if (particles[i]->IsSelected() == false) {
 				particles[i]->SetForce(0,0);
 				if (gluonPresent == true) {
-					xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - xSize/2;
-					ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - ySize/2;
-					particles[i]->AddForce(-xdist/1000, -ydist/1000);
+					if (particles[i]->GetType() != particle::ELECTRON) {
+						xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - xSize/2;
+						ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - ySize/2;
+						particles[i]->AddForce((-xdist/1000)*count/3, (-ydist/1000)*count/3);
+					}
 				}
 				if (particles[i]->GetType() != particle::GLUON) {
 					for (int j = 0; j < maxParticles; j++) {
@@ -279,7 +295,7 @@ void particle_controller::OnRelease()
 
 void particle_controller::DestroyFirstParticleAtMouse()
 {
-	for (int i = 0; i < maxParticles; i++) {
+	for (int i = maxParticles - 1; i >= 0; i--) {
 		if (!spaces[i]) {
 			if (particles[i]->OnClick(mouseX, mouseY)){
 				DeleteParticle(i);
