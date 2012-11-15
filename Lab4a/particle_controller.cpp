@@ -4,6 +4,8 @@
 #define _PARTICLE_H_
 #include "particle.h"
 #endif
+#include "atoms.h"
+#include <iostream>
 
 
 particle_controller::particle_controller(int max)
@@ -129,6 +131,7 @@ void particle_controller::Update(int x, int y)
 	mouseY = y;
 	if (ParticlesInMotion() == false) {
 		DetectCompositeParticles();
+		DetectAtoms();
 	}
 	SimulateParticles();
 	UpdateAllParticles();
@@ -195,13 +198,14 @@ void particle_controller::DetectCompositeParticles()
 
 	int i = maxParticles;
 	switch (primsum) {
-		case 60:
+		case 13013:
 			//  Proton
 			DeleteParticles();
 			i = CreateNew(particle::PROTON);
 			particles[i]->AnimatedCreation();
 			break;
-		case 90:
+		case 11011:
+			//  Neutron
 			DeleteParticles();
 			i = CreateNew(particle::NEUTRON);
 			particles[i]->AnimatedCreation();
@@ -212,6 +216,33 @@ void particle_controller::DetectCompositeParticles()
 		DeSelect(i);
 		particles[i]->SetLocation(xSize/2 - particles[i]->GetWidth()/2, ySize/2 - particles[i]->GetHeight()/2);
 	}
+}
+
+void particle_controller::DetectAtoms()
+{
+
+	int protons = 0;
+	int neutrons = 0;
+	int electrons = 0;
+	for (int i = 0; i < maxParticles; i++) {
+		if (!spaces[i]) {
+			if (particles[i]->GetType() == particle::PROTON)
+				protons++;
+			else if (particles[i]->GetType() == particle::NEUTRON)
+				neutrons++;
+			else if (particles[i]->GetType() == particle::ELECTRON)
+				electrons++;
+		}
+	}
+
+	if (protons + neutrons + electrons > 0) {
+		for(int i = 0; i < 22; i++) {
+			if (Atoms[i].AtomicNumber() == protons && protons == electrons && Atoms[i].Neutrons() == neutrons) {
+				DeleteParticles();
+			}
+		}
+	}
+
 }
 
 bool particle_controller::ParticlesInMotion()

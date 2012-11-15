@@ -11,7 +11,7 @@
 #include "gameUI.h"
 #include <stack>
 
-#define MAXSIZE 20
+#define MAXSIZE 40
 
 
 

@@ -34,7 +34,7 @@ particle::particle(type type) :
 			spin[1] = 2;
 			name = "Up Quark";
 			image = new sprite("UpQuark.bmp");
-			primID = 2;
+			primID = 13;
 			break;
 		case DOWN_QUARK:
 			mass = 4.8*1000000;
@@ -44,7 +44,7 @@ particle::particle(type type) :
 			spin[1] = 2;
 			name = "Down Quark";
 			image = new sprite("DownQuark.bmp");
-			primID = 3;
+			primID = 11;
 			break;
 		case TOP_QUARK:
 			mass = 171.2*1000000000;
@@ -94,7 +94,7 @@ particle::particle(type type) :
 			spin[1] = 1;
 			name = "Gluon";
 			image = new sprite("gluon.bmp");
-			primID = 5;
+			primID = 7;
 			break;
 		case ELECTRON:
 			mass = 0.511 * 1000000;
@@ -104,7 +104,7 @@ particle::particle(type type) :
 			spin[1] = 2;
 			name = "Electron";
 			image = new sprite("electron.bmp");
-			primID = 7;
+			primID = 5;
 			break;
 		case PROTON:
 			mass = 938 * 1000000;
@@ -114,7 +114,7 @@ particle::particle(type type) :
 			spin[1] = 2;
 			name = "Proton";
 			image = new sprite("Proton.bmp");
-			primID = 11;
+			primID = 3;
 			break;
 		case NEUTRON:
 			mass = 939 * 1000000;
@@ -124,7 +124,7 @@ particle::particle(type type) :
 			spin[1] = 2;
 			name = "Neutron";
 			image = new sprite("Neutron.bmp");
-			primID = 13;
+			primID = 2;
 			break;
 	}
 }

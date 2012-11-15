@@ -62,6 +62,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="atoms.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="gameUI.cpp" />
     <ClCompile Include="input.cpp" />
@@ -74,6 +75,7 @@
     <ClCompile Include="theElements.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="atoms.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="gameUI.h" />
     <ClInclude Include="input.h" />

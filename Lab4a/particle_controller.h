@@ -39,6 +39,7 @@ public:
 
 	void SimulateParticles();
 	void DetectCompositeParticles();
+	void DetectAtoms();
 	void DestroyFirstParticleAtMouse();
 
 	void Update(int mouseX, int mouseY);
