@@ -123,7 +123,10 @@ bool particle_controller::IsEmpty()
 
 bool particle_controller::IsParticle(int i)
 {
-	return !spaces[i];
+	if (i < maxParticles)
+		return !spaces[i];
+	else
+		return false;
 }
 
 void particle_controller::Update(int x, int y)
