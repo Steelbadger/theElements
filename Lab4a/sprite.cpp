@@ -88,6 +88,29 @@ void sprite::Draw(HDC bitmapHDC, HDC backHDC)
 	SelectObject(bitmapHDC,originalBitMap);
 }
 
+void sprite::Draw(HDC bitmapHDC, HDC backHDC, float scalefactor)
+{
+	HBITMAP originalBitMap;
+	originalBitMap = (HBITMAP)SelectObject(bitmapHDC,bitmap);
+
+	if (frame < 400) {
+		float i = 600.0/ (200.0 + frame);
+		SelectObject(bitmapHDC, transparencyMask);
+		StretchBlt(backHDC, x+((w-(w*i))/2), y+((h-(h*i))/2), w*i, h*i, bitmapHDC, 0, 0, w, h, SRCAND);
+		SelectObject(bitmapHDC, bitmap);
+		StretchBlt(backHDC, x+((w-(w*i))/2), y+((h-(h*i))/2), w*i, h*i, bitmapHDC, 0, 0, w, h, SRCPAINT);
+		frame++;
+	} else {
+		float i = scalefactor;
+		SelectObject(bitmapHDC, transparencyMask);
+		StretchBlt(backHDC, x+((w-(w*i))/2), y+((h-(h*i))/2), w*i, h*i, bitmapHDC, 0, 0, w, h, SRCAND);
+		SelectObject(bitmapHDC, bitmap);
+		StretchBlt(backHDC, x+((w-(w*i))/2), y+((h-(h*i))/2), w*i, h*i, bitmapHDC, 0, 0, w, h, SRCPAINT);
+	}
+
+	SelectObject(bitmapHDC,originalBitMap);
+}
+
 void sprite::Move(sprite::direction dir)
 {
 	switch (dir) {

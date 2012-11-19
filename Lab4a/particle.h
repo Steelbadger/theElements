@@ -22,7 +22,7 @@ public:
 	enum type {NONE, UP_QUARK, DOWN_QUARK, TOP_QUARK, BOTTOM_QUARK, STRANGE_QUARK, CHARM_QUARK, GLUON, ELECTRON, PROTON, NEUTRON};
 	particle(type particleType);
 	~particle(void);	
-	void Draw(HDC bitmapHDC, HDC backHDC) {image->Draw(bitmapHDC, backHDC);}
+	void Draw(HDC bitmapHDC, HDC backHDC, int ParticleNumber);
 	void Move(sprite::direction dir) {image->Move(dir);}
 	void Move(float deltaX, float deltaY);
 	void AddForce(float x, float y) {xForce += x; yForce += y;}
@@ -42,6 +42,7 @@ public:
 	bool IsMoving();
 	bool OnClick(int xClick, int yClick);
 	void OnRelease(){SetSelected(false); image->OnRelease();}
+	void OrbitAt(int radius, int xCentre, int yCentre);
 
 	void AnimatedCreation();
 	void SetScreenSize(int x, int y);
@@ -59,6 +60,7 @@ private:
 	unsigned long time;
 	type particleType;
 	int screenX, screenY;
+	float orbit;
 
 };
 

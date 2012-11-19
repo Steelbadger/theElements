@@ -26,10 +26,10 @@ void theElements::HandleInstantInput()
 				particles.SetSelected(current);
 			} else if (input.ReportLMouseRelease()) {
 				particles.OnRelease();
-				if (current != 7 && HUD.MouseOver()) {
+				if (current != MAXSIZE && HUD.MouseOver()) {
 					if (HUD.OnMouseRelease(particles.SelectedParticle(current))){
 						particles.DeleteParticle(current);
-						current = 7;
+						current = MAXSIZE;
 					}
 
 				}
@@ -149,6 +149,11 @@ void theElements::DisplaySplashScreen()
 	}
 }
 
+void theElements::OnPaint()
+{
+	HintWindow.OnPaint(backHDC, ghwnd);
+}
+
 void theElements::DisplayMenuScreen()
 {
 	input.Update();
@@ -173,7 +178,8 @@ void theElements::RunGame()
 {
 		HandleInstantInput();
 		HandleDelayedInput(5);
-
+		HintWindow.SetRectangle(0,0, 100, 100);
+		HintWindow.SetBodyString("Hello World!");
 
 	//	if (particles.IsParticle(current))
 	//		if (particles.IsSelected(current))

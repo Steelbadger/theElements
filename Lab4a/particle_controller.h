@@ -29,9 +29,10 @@ public:
 	bool SpaceRemaining();
 	bool IsEmpty();
 	bool IsParticle(int ID);
-	void SetSelected(int ID) {particles[ID]->SetSelected(true);}
+	void SetSelected(int ID);
 	void DeSelect(int ID) {particles[ID]->SetSelected(false);}
 	bool IsSelected(int ID) {return particles[ID]->IsSelected();}
+	bool AllParticlesUnselected();
 	bool ParticlesInMotion();
 	int OnClick(int xClick, int yClick);
 	void OnRelease();

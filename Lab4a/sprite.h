@@ -18,6 +18,7 @@ public:
 	void SetSprite(LPSTR szFileName);
 	~sprite(void);
 	void Draw(HDC bitmapHDC, HDC backHDC);
+	void Draw(HDC bitmapHDC, HDC bacHDC, float scalefactor);
 	void Move(direction dir);
 	void Move(float deltaX, float deltaY) {x+=deltaX; y+=deltaY;}
 	void SetLocation(int xpos, int ypos) {x = xpos; y = ypos;}

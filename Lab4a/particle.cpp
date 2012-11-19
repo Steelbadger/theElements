@@ -22,7 +22,8 @@ particle::particle(type type) :
 	yForce(0),
 	xVelocity(0),
 	yVelocity(0),
-	particleType(type)
+	particleType(type),
+	orbit(0.0)
 {
 	switch (type)
 	{
@@ -182,6 +183,25 @@ void particle::Move(float deltaX, float deltaY)
 	}
 }
 
+void particle::OrbitAt(int radius, int x, int y)
+{
+	if (orbit > 360)
+		orbit = 1.0;
+	SetLocation(radius*sin((orbit*(2*3.1415))/360) + x - image->GetWidth()/2, radius*cos((orbit*(2*3.1415))/360) + y - image->GetHeight()/2);
+	orbit+= 0.2;
+
+}
+
+void particle::Draw(HDC bitmapHDC, HDC backHDC, int ParticleNumber)
+{
+	if (ParticleNumber > 10) {
+		ParticleNumber = 10;
+	}
+	float scaleFactor = 4.0/(ParticleNumber + 3.0);
+
+	image->Draw(bitmapHDC, backHDC, scaleFactor);
+}
+
 void particle::SetScreenSize(int x, int y)
 {
 	screenX = x;
@@ -190,7 +210,7 @@ void particle::SetScreenSize(int x, int y)
 
 bool particle::IsMoving()
 {
-	if (abs(xVelocity) > 0.0000001 || abs(yVelocity) > 0.0000001)
+	if (abs(xVelocity) > 0.000001 || abs(yVelocity) > 0.000001)
 		return true;
 	else
 		return false;

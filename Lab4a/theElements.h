@@ -10,8 +10,9 @@
 #include "menu.h"
 #include "gameUI.h"
 #include <stack>
+#include "hint.h"
 
-#define MAXSIZE 40
+#define MAXSIZE 80
 
 
 
@@ -31,6 +32,7 @@ public:
 	void releaseResources();
 	HWND        ghwnd;
 	bool Running(){return running;}
+	void OnPaint();
 private:
 
 	enum GameState {SplashScreen, Menu, Game, GameOver, Quit};
@@ -40,6 +42,8 @@ private:
 	menu menu;
 	gameUI HUD;
 	int current;
+
+	hint HintWindow;
 
 	bool WaitFor(unsigned long delay);
 	HBITMAP		theOldFrontBitMap, theOldBackBitMap;

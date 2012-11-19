@@ -65,9 +65,16 @@ void particle_controller::DeleteParticles()
 
 bool particle_controller::DrawParticle(int ID, HDC bitmapHDC, HDC backHDC)
 {
+	int count = 0;
+	for (int i = 0; i < maxParticles; i++)
+	{
+		if (!spaces[i])
+			count++;
+	}
+
 	if (particles[ID] != NULL && (ID < maxParticles))
 	{
-		particles[ID]->Draw(bitmapHDC, backHDC);
+		particles[ID]->Draw(bitmapHDC, backHDC, count);
 		return true;
 	} else {
 		return false;
@@ -88,10 +95,18 @@ bool particle_controller::MoveParticle(int ID, sprite::direction dir)
 
 void particle_controller::DrawAll(HDC bitmapHDC, HDC backHDC)
 {
+	int count = 0;
 	for (int i = 0; i < maxParticles; i++)
 	{
 		if (!spaces[i])
-			particles[i]->Draw(bitmapHDC, backHDC);
+			if (particles[i]->GetType() != particle::ELECTRON)
+				count++;
+	}
+
+	for (int i = 0; i < maxParticles; i++)
+	{
+		if (!spaces[i])
+			particles[i]->Draw(bitmapHDC, backHDC, count);
 	}
 
 }
@@ -99,6 +114,13 @@ void particle_controller::DrawAll(HDC bitmapHDC, HDC backHDC)
 void particle_controller::SetLocation(int ID, int x, int y)
 {
 	particles[ID]->SetLocation(x,y);
+}
+
+void particle_controller::SetSelected(int ID)
+{
+	if (ID < maxParticles) {
+		particles[ID]->SetSelected(true);
+	}
 }
 
 bool particle_controller::SpaceRemaining()
@@ -129,11 +151,22 @@ bool particle_controller::IsParticle(int i)
 		return false;
 }
 
+bool particle_controller::AllParticlesUnselected()
+{
+	for (int i = 0; i < maxParticles; i++)
+	{
+		if (!spaces[i])
+			if (IsSelected(i))
+				return false;
+	}
+	return true;
+}
+
 void particle_controller::Update(int x, int y)
 {
 	mouseX = x;
 	mouseY = y;
-	if (ParticlesInMotion() == false) {
+	if (ParticlesInMotion() == false && AllParticlesUnselected()) {
 		DetectCompositeParticles();
 		DetectAtoms();
 	}
@@ -160,6 +193,7 @@ void particle_controller::SimulateParticles()
 	float xdist, ydist, res = 0;
 	float G = 3.5;
 	int count = 0;
+	int electrons = 0;
 
 	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i]) {
@@ -175,18 +209,30 @@ void particle_controller::SimulateParticles()
 					if (particles[i]->GetType() != particle::ELECTRON) {
 						xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - xSize/2;
 						ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - ySize/2;
-						particles[i]->AddForce((-xdist/1000)*count/3, (-ydist/1000)*count/3);
+						particles[i]->AddForce((-xdist/1000)*count*2, (-ydist/1000)*count*2);
+					} else {
+						electrons++;
+						if (electrons <= 2)
+							particles[i]->OrbitAt(20+60, xSize/2, ySize/2);
+						else if (electrons <= 10)
+							particles[i]->OrbitAt(3*20+60, xSize/2, ySize/2);
+						else if (electrons <= 18)
+							particles[i]->OrbitAt(5*20+60, xSize/2, ySize/2);
+						else if (electrons <= 20)
+							particles[i]->OrbitAt(7*20+60, xSize/2, ySize/2);
+						else if (electrons <=23)
+							particles[i]->OrbitAt(5*20+60, xSize/2, ySize/2);
 					}
 				}
-				if (particles[i]->GetType() != particle::GLUON) {
+				if (particles[i]->GetType() != particle::GLUON && particles[i]->GetType() != particle::ELECTRON) {
 					for (int j = 0; j < maxParticles; j++) {
 						if (!spaces[j] && j != i) {
 							xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - (particles[j]->GetX()+particles[j]->GetWidth()/2);
 							ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - (particles[j]->GetY()+particles[j]->GetHeight()/2);
 							res = xdist*xdist + ydist*ydist;
-							if (particles[j]->GetType() != particle::GLUON)
+							if (particles[j]->GetType() != particle::GLUON && particles[j]->GetType() != particle::ELECTRON)
 								particles[i]->AddForce((xdist/res)*G, (ydist/res)*G);
-							else
+							else if (particles[j]->GetType() != particle::ELECTRON)
 								particles[i]->AddForce((xdist/res), (ydist/res));
 						}
 					}	
@@ -255,7 +301,7 @@ void particle_controller::DetectAtoms()
 	}
 
 	if (protons + neutrons + electrons > 0) {
-		for(int i = 0; i < 22; i++) {
+		for(int i = 0; i < 83; i++) {
 			if (Atoms[i].AtomicNumber() == protons && protons == electrons && Atoms[i].Neutrons() == neutrons) {
 				DeleteParticles();
 			}
@@ -268,7 +314,7 @@ bool particle_controller::ParticlesInMotion()
 {
 	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i]) {
-			if (particles[i]->IsMoving())
+			if (particles[i]->IsMoving() && particles[i]->GetType() != particle::ELECTRON)
 				return true;
 		}
 	}

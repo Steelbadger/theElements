@@ -82,7 +82,8 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			Application.Message(message, wParam, lParam);
 			break;
 
-		case WM_PAINT:	
+		case WM_PAINT:
+			Application.OnPaint();
 		    break;		
 
 		case WM_DESTROY:	
