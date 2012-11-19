@@ -177,9 +177,17 @@ void particle::Move(float deltaX, float deltaY)
 {
 	if (image->GetX() + deltaX > 0 && image->GetX() + deltaX < (screenX-image->GetWidth())) {
 		image->Move(deltaX, 0);
+	} else if (image->GetX() + deltaX <= 0 && deltaX > 0) {
+		image->Move(deltaX, 0);
+	} else if (image->GetX() + deltaX >= (screenX-image->GetWidth()) && deltaX < 0) {
+		image->Move(deltaX,0);
 	}
 	if (image->GetY() + deltaY > 0 && image->GetY() + deltaY < (screenY - image->GetHeight())) {
 		image->Move(0, deltaY);
+	} else if (image->GetY() + deltaY <= 0 && deltaY > 0) {
+		image->Move(0, deltaY);
+	} else if (image->GetY() + deltaY >= (screenY-image->GetHeight()) && deltaY < 0) {
+		image->Move(0,deltaY);
 	}
 }
 
