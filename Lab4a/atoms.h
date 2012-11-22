@@ -1,23 +1,33 @@
 #pragma once
 #include <string>
+#include "sprite.h"
 
 class atom
 {
 public:
 	atom(void);
 	atom(int AtomicNumber, int Neutrons);
+	atom(int AtomicNumber, int Neutrons, LPSTR szFileName);
 	atom(int AtomicNumber, int Neutrons, std::string IsotopeName);
+	atom(int AtomicNumber, int Neutrons, std::string IsotopeName, LPSTR szFileName);
 	~atom(void);
-	void Set(int AtomicNumber, int Neutrons);
-	void Set(int AtomicNumber, int Neutrons, std::string IsotopeName);
 	int AtomicNumber(){return atomicNumber;}
 	int Neutrons(){return neutrons;}
 	std::string Name(){return name;}
 	std::string IsotopeName(){return isotopeName;}
+	void Centre(int width);
+	void Draw(HDC bitmapHDC, HDC backHDC);
 
 private:
+	void Set(int AtomicNumber, int Neutrons);
+	void Set(int AtomicNumber, int Neutrons, std::string IsotopeName);
+	void SetImage(LPSTR szFileName);
+
+	int frame;
+
 	int atomicNumber;
 	int neutrons;
+	sprite *image;
 	std::string name;
 	std::string isotopeName;
 
@@ -26,28 +36,28 @@ private:
 };
 
 
-static atom Atoms[83] ={atom(1,0,"Protium"),
-						atom(1,1,"Deuterium"),
-						atom(1,2,"Tritium"),
-						atom(2,2,"Tralphium"),
-						atom(2,3),
-						atom(3,3),
-						atom(3,4),
-						atom(4,3),
-						atom(4,5),
-						atom(4,6),
-						atom(5,5),
-						atom(5,6),
-						atom(6,5),
-						atom(6,6),
-						atom(6,7),
-						atom(6,8),
-						atom(7,6),
-						atom(7,7),
-						atom(7,8),
-						atom(8,8),
-						atom(8,9),
-						atom(8,10),
+static atom Atoms[83] ={atom(1,0,"Protium", "hydrogen1.bmp"),
+						atom(1,1,"Deuterium", "hydrogen2.bmp"),
+						atom(1,2,"Tritium", "hydrogen3.bmp"),
+						atom(2,2,"Tralphium", "helium3.bmp"),
+						atom(2,3, "helium4.bmp"),
+						atom(3,3, "lithium6.bmp"),
+						atom(3,4, "lithium7.bmp"),
+						atom(4,3, "beryllium7.bmp"),
+						atom(4,5, "beryllium9.bmp"),
+						atom(4,6, "beryllium10.bmp"),
+						atom(5,5, "boron10.bmp"),
+						atom(5,6, "boron11.bmp"),
+						atom(6,5, "carbon11.bmp"),
+						atom(6,6, "carbon12.bmp"),
+						atom(6,7, "carbon13.bmp"),
+						atom(6,8, "carbon14.bmp"),
+						atom(7,6, "nitrogen13.bmp"),
+						atom(7,7, "nitrogen14.bmp"),
+						atom(7,8, "nitrogen15.bmp"),
+						atom(8,8, "oxygen16.bmp"),
+						atom(8,9, "oxygen17.bmp"),
+						atom(8,10, "oxygen18.bmp"),
 						atom(9,9),
 						atom(9,10),
 						atom(10,10),

@@ -18,6 +18,7 @@ particle_controller::particle_controller(int max)
 	{
 		spaces[i-1] = true;
 	}
+	atomOverlay = NULL;
 }
 
 
@@ -107,6 +108,14 @@ void particle_controller::DrawAll(HDC bitmapHDC, HDC backHDC)
 	{
 		if (!spaces[i])
 			particles[i]->Draw(bitmapHDC, backHDC, count);
+	}
+
+	if (atomOverlay != NULL) {
+		atomOverlay->Draw(bitmapHDC, backHDC);
+		atomFrame--;
+		if (atomFrame == 0) {
+			atomOverlay = NULL;
+		}
 	}
 
 }
@@ -304,10 +313,12 @@ void particle_controller::DetectAtoms()
 		for(int i = 0; i < 83; i++) {
 			if (Atoms[i].AtomicNumber() == protons && protons == electrons && Atoms[i].Neutrons() == neutrons) {
 				DeleteParticles();
+				atomOverlay = &Atoms[i];
+				atomOverlay->Centre(xSize);
+				atomFrame = 600;
 			}
 		}
 	}
-
 }
 
 bool particle_controller::ParticlesInMotion()

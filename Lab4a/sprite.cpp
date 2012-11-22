@@ -111,6 +111,20 @@ void sprite::Draw(HDC bitmapHDC, HDC backHDC, float scalefactor)
 	SelectObject(bitmapHDC,originalBitMap);
 }
 
+void sprite::DrawFade(HDC bitmapHDC, HDC backHDC, int frame)
+{
+	HBITMAP fadeMask = (HBITMAP)LoadImage(NULL, "fademask.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	HBITMAP originalBitMap;
+	originalBitMap = (HBITMAP)SelectObject(bitmapHDC,bitmap);
+	for (int i = 0; i < frame; i++) {
+		SelectObject(bitmapHDC, fadeMask);
+		BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCAND);
+	}
+	SelectObject(bitmapHDC, bitmap);
+	BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCPAINT);
+
+}
+
 void sprite::Move(sprite::direction dir)
 {
 	switch (dir) {

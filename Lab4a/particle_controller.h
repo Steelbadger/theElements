@@ -10,6 +10,7 @@
 #define _WINDOWS_H_DEFINED_
 #include <windows.h>
 #endif
+#include "atoms.h"
 
 
 
@@ -48,6 +49,8 @@ public:
 
 private:
 	void UpdateAllParticles();
+	atom *atomOverlay;
+	int atomFrame;
 	int maxParticles;
 	particle **particles;
 	bool *spaces;
