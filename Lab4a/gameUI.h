@@ -24,11 +24,13 @@ public:
 	bool MouseOver(){return bottomMenu.MouseOver(mouseX, mouseY);}
 
 	bool OnMouseRelease(particle::type p);
+	bool OnTableClick();
 
 private:
 	int width, height;
 	int offset;
 	int mouseX, mouseY;
+	button tableButton;
 	sprite bottomMenu;
 	button* buttons[7];
 };

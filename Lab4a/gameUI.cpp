@@ -2,7 +2,8 @@
 
 
 gameUI::gameUI(int w, int h):
-	bottomMenu("UIBottom.bmp")
+	bottomMenu("UIBottom.bmp"),
+	tableButton("tableButton.bmp", "tableButtonMO.bmp", "tableButtonImg.bmp", 0,0)
 {
 	width = w;
 	height = h;
@@ -31,6 +32,7 @@ void gameUI::Display(HDC bitmapHDC, HDC backHDC)
 	for (int i = 0; i < 7; i++) {
 		buttons[i]->Draw(bitmapHDC, backHDC);
 	}
+	tableButton.Draw(bitmapHDC, backHDC);
 }
 
 void gameUI::Update(int x, int y)
@@ -39,6 +41,7 @@ void gameUI::Update(int x, int y)
 	for (int i = 0; i < 7; i++) {
 		buttons[i]->Update(x, y);
 	}
+	tableButton.Update(x, y);
 	if (bottomMenu.MouseOver(mouseX, mouseY)){
 		if (bottomMenu.GetY() > (height - 100)){
 			bottomMenu.Move(sprite::UP);
@@ -72,6 +75,13 @@ particle::type gameUI::ReturnParticleCreation()
 		}
 	}
 	return particle::NONE;
+}
+bool gameUI::OnTableClick()
+{
+	if (tableButton.OnClick(mouseX, mouseY)){
+		return true;
+	}
+	return false;
 }
 
 bool gameUI::OnMouseRelease(particle::type p)

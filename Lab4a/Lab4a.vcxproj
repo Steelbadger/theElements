@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1373A17E-FBD5-4EA2-9358-F3B9EDE86BB5}</ProjectGuid>
     <RootNamespace>Lab4a</RootNamespace>
+    <ProjectName>theElements</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,6 +73,7 @@
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particle_controller.cpp" />
+    <ClCompile Include="periodicTable.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="theElements.cpp" />
   </ItemGroup>
@@ -85,6 +87,7 @@
     <ClInclude Include="mouse.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particle_controller.h" />
+    <ClInclude Include="periodicTable.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="theElements.h" />
   </ItemGroup>

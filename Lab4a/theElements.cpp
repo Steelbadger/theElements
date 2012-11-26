@@ -33,12 +33,17 @@ void theElements::HandleInstantInput()
 					}
 
 				}
+			} else if (input.ReportLMousePress() && HUD.OnTableClick()) {
+				currentState = Table;
 			} else if (input.ReportLMousePress()) {
 				current = particles.OnClick(input.GetMouseX(), input.GetMouseY());
 			}
 
 			if (input.ReportRMouseRelease()) {
 				particles.DestroyFirstParticleAtMouse();
+			}
+			if (input.ReportKeyPress('P')) {
+				currentState = Pause;
 			}
 }
 
@@ -124,8 +129,11 @@ void theElements::MainLoop()
 		case Game:
 			RunGame();
 			break;
-		case GameOver:
-			DisplayGameOver();
+		case Table:
+			DisplayTable();
+			break;
+		case Pause:
+			DisplayPause();
 			break;
 		case Quit:
 			QuitGame();
@@ -178,21 +186,56 @@ void theElements::RunGame()
 {
 		HandleInstantInput();
 		HandleDelayedInput(5);
-		HintWindow.SetRectangle(0,0, 100, 100);
-		HintWindow.SetBodyString("Hello World!");
-
-	//	if (particles.IsParticle(current))
-	//		if (particles.IsSelected(current))
-	//			particles.SetLocation(current, input.GetMouseX()-64, input.GetMouseY()-64);
 		particles.Update(input.GetMouseX(), input.GetMouseY());
 		particles.DrawAll(bitmapHDC, backHDC);
 		HUD.Display(bitmapHDC, backHDC);
 		displayFrame();
 }
 
-void theElements::DisplayGameOver()
+void theElements::DisplayTable()
 {
+	input.Update();
+	if (input.GetMouseX() < 20 && table.GetX() > 0) {
+		table.Move(1.0f, 0.0f);
+	}
+	if (input.GetMouseX() > cxClient - 20 && table.GetX() + table.GetWidth() > cxClient) {
+		table.Move(-1.0f, 0.0f);
+	}
+	if (input.GetMouseY() < 20 && table.GetY() > 0) {
+		table.Move(0.0f, -1.0f);
+	}
+	if (input.GetMouseY() > cyClient - 20 && table.GetY() + table.GetHeight() > cyClient) {
+		table.Move(0.0f, 1.0f);
+	}
+	if (input.ReportLMousePress() && HUD.OnTableClick()) {
+		currentState = Game;
+	}
+	table.Draw(bitmapHDC, backHDC);
+	displayFrame();
 
+
+}
+
+void theElements::DisplayPause()
+{
+	input.Update();
+	if (input.ReportLMousePress()) {
+		menu.OnClickPaused(input.GetMouseX(), input.GetMouseY());
+	}
+	menu.UpdatePaused(input.GetMouseX(), input.GetMouseY());
+	if (menu.ReturnButtonClicked() == menu::Continue)
+	{
+		currentState = Game;
+	} else if (menu.ReturnButtonClicked() == menu::Quit)
+	{
+		currentState = Quit;
+	}
+	if (WaitFor(10))
+	{	
+		menu.DisplayPaused(bitmapHDC,backHDC);
+		displayFrame();
+	}
+	menu.ResetButtonClicked();
 }
 
 void theElements::QuitGame()

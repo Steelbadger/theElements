@@ -11,6 +11,7 @@
 #include "gameUI.h"
 #include <stack>
 #include "hint.h"
+#include "periodicTable.h"
 
 #define MAXSIZE 80
 
@@ -35,12 +36,13 @@ public:
 	void OnPaint();
 private:
 
-	enum GameState {SplashScreen, Menu, Game, GameOver, Quit};
+	enum GameState {SplashScreen, Menu, Game, Table, Pause, Quit};
 	GameState currentState;
 	Input input;
 	particle_controller particles;
 	menu menu;
 	gameUI HUD;
+	periodicTable table;
 	int current;
 
 	hint HintWindow;
@@ -54,7 +56,8 @@ private:
 	void DisplaySplashScreen();
 	void DisplayMenuScreen();
 	void RunGame();
-	void DisplayGameOver();
+	void DisplayTable();
+	void DisplayPause();
 	void QuitGame();
 	bool running;
 
