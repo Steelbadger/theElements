@@ -50,9 +50,7 @@
     </ClCompile>
     <ClCompile Include="hint.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="periodicTable.cpp">
-      <Filter>Source Files</Filter>
+   r>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,11 +87,7 @@
     <ClInclude Include="hint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="periodicTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="peemGroup>
     <None Include="ball.bmp">
       <Filter>Resource Files</Filter>
     </None>

@@ -63,22 +63,20 @@ void menu::UpdatePaused(int MouseX, int MouseY)
 
 void menu::OnClick(int x, int y)
 {
-	if (newGame.OnClick(x, y))
-	{
+	if (newGame.OnClick(x, y)) {
 		ButtonClicked = NewGame;
 	}
-	if (quit.OnClick(x, y))
-	{
+	if (quit.OnClick(x, y)) {
 		ButtonClicked = Quit;
 	}
 }
 
 void menu::OnClickPaused(int x, int y)
 {
-	if (quit.OnClick(x, y))
-	{
+	if (quit.OnClick(x, y)) {
 		ButtonClicked = Quit;
 	}
+	
 	if (cont.OnClick(x, y)) {
 		ButtonClicked = Continue;
 	}

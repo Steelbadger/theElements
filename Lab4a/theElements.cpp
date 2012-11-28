@@ -6,7 +6,8 @@ theElements::theElements(void):
 	currentState(SplashScreen),
 	running(true),
 	HUD(840, 620),
-	current(7)
+	current(7),
+	background("wmap.bmp", 0,0)
 {
 }
 
@@ -44,6 +45,10 @@ void theElements::HandleInstantInput()
 			}
 			if (input.ReportKeyPress('P')) {
 				currentState = Pause;
+			}
+
+			if (particles.ReportAtomCreation() >= 0) {
+				table.UnlockAtom(particles.ReportAtomCreation()-1);
 			}
 }
 
@@ -159,24 +164,21 @@ void theElements::DisplaySplashScreen()
 
 void theElements::OnPaint()
 {
-	HintWindow.OnPaint(backHDC, ghwnd);
 }
 
 void theElements::DisplayMenuScreen()
 {
 	input.Update();
-	if (input.ReportLMousePress())
+	if (input.ReportLMousePress()) {
 		menu.OnClick(input.ReportMouseLocation(Mouse::X), input.ReportMouseLocation(Mouse::Y));
+	}
 	menu.Update(input.GetMouseX(), input.GetMouseY());
-	if (menu.ReturnButtonClicked() == menu::NewGame)
-	{
+	if (menu.ReturnButtonClicked() == menu::NewGame) {
 		currentState = Game;
-	} else if (menu.ReturnButtonClicked() == menu::Quit)
-	{
+	} else if (menu.ReturnButtonClicked() == menu::Quit) {
 		currentState = Quit;
 	}
-	if (WaitFor(10))
-	{	
+	if (WaitFor(10)) {	
 		menu.DisplayMenu(bitmapHDC,backHDC);
 		displayFrame();
 	}
@@ -186,7 +188,8 @@ void theElements::RunGame()
 {
 		HandleInstantInput();
 		HandleDelayedInput(5);
-		particles.Update(input.GetMouseX(), input.GetMouseY());
+		background.Draw(bitmapHDC, backHDC);
+	//	particles.Update(input.GetMouseX(), input.GetMouseY());
 		particles.DrawAll(bitmapHDC, backHDC);
 		HUD.Display(bitmapHDC, backHDC);
 		displayFrame();
@@ -195,7 +198,7 @@ void theElements::RunGame()
 void theElements::DisplayTable()
 {
 	input.Update();
-	if (input.GetMouseX() < 20 && table.GetX() > 0) {
+	if (input.GetMouseX() < 20 && table.GetX() < 0) {
 		table.Move(1.0f, 0.0f);
 	}
 	if (input.GetMouseX() > cxClient - 20 && table.GetX() + table.GetWidth() > cxClient) {
@@ -223,15 +226,12 @@ void theElements::DisplayPause()
 		menu.OnClickPaused(input.GetMouseX(), input.GetMouseY());
 	}
 	menu.UpdatePaused(input.GetMouseX(), input.GetMouseY());
-	if (menu.ReturnButtonClicked() == menu::Continue)
-	{
+	if (menu.ReturnButtonClicked() == menu::Continue) {
 		currentState = Game;
-	} else if (menu.ReturnButtonClicked() == menu::Quit)
-	{
+	} else if (menu.ReturnButtonClicked() == menu::Quit) {
 		currentState = Quit;
 	}
-	if (WaitFor(10))
-	{	
+	if (WaitFor(10)) {	
 		menu.DisplayPaused(bitmapHDC,backHDC);
 		displayFrame();
 	}

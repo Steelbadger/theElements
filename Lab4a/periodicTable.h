@@ -17,7 +17,7 @@ public:
 	float GetHeight(){return height;}
 
 private:
-	HBITMAP lockedTable;
+	HBITMA	void UnlockAtom(int AtomicNumber){unlocked[AtomicNumber] = trueITMAP lockedTable;
 	HBITMAP unlockedTable;
 
 	float xBase, yBase, width, height;

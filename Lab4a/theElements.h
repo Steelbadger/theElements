@@ -44,8 +44,7 @@ private:
 	gameUI HUD;
 	periodicTable table;
 	int current;
-
-	hint HintWindow;
+	sprite background;
 
 	bool WaitFor(unsigned long delay);
 	HBITMAP		theOldFrontBitMap, theOldBackBitMap;

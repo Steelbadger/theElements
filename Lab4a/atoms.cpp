@@ -124,7 +124,8 @@ void atom::SetImage(LPSTR szFileName)
 
 void atom::Draw(HDC bitmapHDC, HDC backHDC)
 {
-	image->Draw(bitmapHDC, backHDC);
+	if (image)
+		image->Draw(bitmapHDC, backHDC);
 }
 
 void atom::Centre(int width)

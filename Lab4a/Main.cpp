@@ -39,7 +39,7 @@ BOOL InitialiseMyWindow(HINSTANCE hInstance, int nCmdShow)
 	HWND        hwnd;
 	hwnd = CreateWindow ("FirstWindowClass",					
 						 "Elements",		  	
-						 WS_OVERLAPPEDWINDOW,	
+						 (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX),	
 						 CW_USEDEFAULT,			
 						 CW_USEDEFAULT,			
 						 700,			

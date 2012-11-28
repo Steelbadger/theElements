@@ -80,9 +80,9 @@ void sprite::Draw(HDC bitmapHDC, HDC backHDC)
 		frame++;
 	} else {
 		SelectObject(bitmapHDC, transparencyMask);
-		BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCAND);
+		BitBlt(backHDC, x, y, w, h, bitmapHDC, 0, 0, SRCAND);
 		SelectObject(bitmapHDC, bitmap);
-		BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCPAINT);
+		BitBlt(backHDC, x, y, w, h, bitmapHDC, 0, 0, SRCPAINT);
 	}
 
 	SelectObject(bitmapHDC,originalBitMap);
@@ -118,10 +118,10 @@ void sprite::DrawFade(HDC bitmapHDC, HDC backHDC, int frame)
 	originalBitMap = (HBITMAP)SelectObject(bitmapHDC,bitmap);
 	for (int i = 0; i < frame; i++) {
 		SelectObject(bitmapHDC, fadeMask);
-		BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCAND);
+		BitBlt(backHDC, x, y, w, h, bitmapHDC, 0, 0, SRCAND);
 	}
 	SelectObject(bitmapHDC, bitmap);
-	BitBlt(backHDC, x, y, x+w, y+h, bitmapHDC, 0, 0, SRCPAINT);
+	BitBlt(backHDC, x, y, w, h, bitmapHDC, 0, 0, SRCPAINT);
 
 }
 
@@ -150,8 +150,7 @@ void sprite::SetSelected(bool i)
 
 bool sprite::OnClick(int xClick, int yClick)
 {
-	if (MouseOver(xClick, yClick))
-	{
+	if (MouseOver(xClick, yClick)) {
 		SetSelected(true);
 		return true;
 	} else {
@@ -167,8 +166,7 @@ void sprite::OnRelease()
 
 bool sprite::MouseOver(int xMouse, int yMouse)
 {
-	if (xMouse > x && xMouse < (x+w) && yMouse > y && yMouse < (y+h))
-	{
+	if (xMouse > x && xMouse < (x+w) && yMouse > y && yMouse < (y+h)) {
 		return true;
 	} else {
 		return false;

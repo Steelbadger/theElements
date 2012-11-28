@@ -19,6 +19,7 @@ particle_controller::particle_controller(int max)
 		spaces[i-1] = true;
 	}
 	atomOverlay = NULL;
+	lastAtomCreated = -1;
 }
 
 
@@ -28,10 +29,8 @@ particle_controller::~particle_controller(void)
 
 int particle_controller::CreateNew(particle::type type)
 {
-	for (int i = 0; i < maxParticles; i++)
-	{
-		if (spaces[i] == true)
-		{
+	for (int i = 0; i < maxParticles; i++) {
+		if (spaces[i] == true) {
 			particles[i] = new particle(type);
 			spaces[i] = false;
 			particles[i]->SetScreenSize(xSize, ySize);
@@ -45,8 +44,7 @@ int particle_controller::CreateNew(particle::type type)
 
 bool particle_controller::DeleteParticle(int ID)
 {
-	if (spaces[ID] == false && (ID < maxParticles))
-	{
+	if (spaces[ID] == false && (ID < maxParticles)) {
 		delete particles[ID];
 		particles[ID] = NULL;
 		spaces[ID] = true;
@@ -58,8 +56,7 @@ bool particle_controller::DeleteParticle(int ID)
 
 void particle_controller::DeleteParticles()
 {
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		DeleteParticle(i);
 	}
 }
@@ -67,14 +64,12 @@ void particle_controller::DeleteParticles()
 bool particle_controller::DrawParticle(int ID, HDC bitmapHDC, HDC backHDC)
 {
 	int count = 0;
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i])
 			count++;
 	}
 
-	if (particles[ID] != NULL && (ID < maxParticles))
-	{
+	if (particles[ID] != NULL && (ID < maxParticles)) {
 		particles[ID]->Draw(bitmapHDC, backHDC, count);
 		return true;
 	} else {
@@ -84,8 +79,7 @@ bool particle_controller::DrawParticle(int ID, HDC bitmapHDC, HDC backHDC)
 
 bool particle_controller::MoveParticle(int ID, sprite::direction dir)
 {
-	if (spaces[ID] == false && (ID < maxParticles))
-	{
+	if (spaces[ID] == false && (ID < maxParticles)) {
 		particles[ID]->Move(dir);
 		return true;
 	} else {
@@ -97,15 +91,13 @@ bool particle_controller::MoveParticle(int ID, sprite::direction dir)
 void particle_controller::DrawAll(HDC bitmapHDC, HDC backHDC)
 {
 	int count = 0;
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i])
 			if (particles[i]->GetType() != particle::ELECTRON)
 				count++;
 	}
 
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i])
 			particles[i]->Draw(bitmapHDC, backHDC, count);
 	}
@@ -134,8 +126,7 @@ void particle_controller::SetSelected(int ID)
 
 bool particle_controller::SpaceRemaining()
 {
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		if (spaces[i])
 			return true;
 	}
@@ -144,8 +135,7 @@ bool particle_controller::SpaceRemaining()
 
 bool particle_controller::IsEmpty()
 {
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		if (spaces[i])
 			return false;
 	}
@@ -162,8 +152,7 @@ bool particle_controller::IsParticle(int i)
 
 bool particle_controller::AllParticlesUnselected()
 {
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i])
 			if (IsSelected(i))
 				return false;
@@ -188,8 +177,7 @@ void particle_controller::SetScreenSize(int x, int y)
 {
 	xSize = x;
 	ySize = y;
-	for (int i = 0; i < maxParticles; i++)
-	{
+	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i])
 			particles[i]->SetScreenSize(x, y);
 	}
@@ -216,22 +204,11 @@ void particle_controller::SimulateParticles()
 				particles[i]->SetForce(0,0);
 				if (gluonPresent == true) {
 					if (particles[i]->GetType() != particle::ELECTRON) {
-						xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - xSize/2;
-						ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - ySize/2;
-						particles[i]->AddForce((-xdist/1000)*count*2, (-ydist/1000)*count*2);
-					} else {
 						electrons++;
-						if (electrons <= 2)
-							particles[i]->OrbitAt(20+60, xSize/2, ySize/2);
-						else if (electrons <= 10)
-							particles[i]->OrbitAt(3*20+60, xSize/2, ySize/2);
-						else if (electrons <= 18)
-							particles[i]->OrbitAt(5*20+60, xSize/2, ySize/2);
-						else if (electrons <= 20)
-							particles[i]->OrbitAt(7*20+60, xSize/2, ySize/2);
-						else if (electrons <=23)
-							particles[i]->OrbitAt(5*20+60, xSize/2, ySize/2);
 					}
+					xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - xSize/2;
+					ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - ySize/2;
+					particles[i]->AddForce((-xdist/1000)*count*2, (-ydist/1000)*count*2);
 				}
 				if (particles[i]->GetType() != particle::GLUON && particles[i]->GetType() != particle::ELECTRON) {
 					for (int j = 0; j < maxParticles; j++) {
@@ -292,6 +269,14 @@ void particle_controller::DetectCompositeParticles()
 	}
 }
 
+int particle_controller::ReportAtomCreation()
+{
+	if (lastAtomCreated > 0) {
+		return lastAtomCreated;
+	} else
+		return -1;
+}
+
 void particle_controller::DetectAtoms()
 {
 
@@ -315,6 +300,7 @@ void particle_controller::DetectAtoms()
 				DeleteParticles();
 				atomOverlay = &Atoms[i];
 				atomOverlay->Centre(xSize);
+				lastAtomCreated = atomOverlay->AtomicNumber();
 				atomFrame = 600;
 			}
 		}

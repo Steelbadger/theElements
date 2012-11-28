@@ -136,8 +136,7 @@ particle::~particle(void)
 
 void particle::Update(int x, int y)
 {
-	if (IsSelected() == true)
-	{
+	if (IsSelected() == true) {
 		time = clock();
 		SetLocation(x-image->GetWidth()/2, y - image->GetHeight()/2);
 	} else {
@@ -154,17 +153,31 @@ void particle::Drag(int x, int y)
 
 void particle::MoveUnderForce()
 {
-	float deltaT = ((float)(clock() - time))/CLOCKS_PER_SEC;
+	float deltaT;
+	if (particleType == ELECTRON) {
+		deltaT = 100*((float)(clock() - time))/CLOCKS_PER_SEC;
+	} else {
+		deltaT = ((float)(clock() - time))/CLOCKS_PER_SEC;
+	}
 	time = clock();
 	if (deltaT > 1) {
 		deltaT = 1;
 	} else if (deltaT == 0) {
 		deltaT = 1;
 	}
+	float xMov;
+	float yMov;
 
 
-	float xMov = (xVelocity * deltaT) + (0.5 * xForce * deltaT * deltaT);
-	float yMov = (yVelocity * deltaT) + (0.5 * yForce * deltaT * deltaT);
+
+
+	if (particleType == ELECTRON) {
+		xMov = (xVelocity * deltaT) + (0.5 * xForce * deltaT * deltaT);
+		yMov = (yVelocity * deltaT) + (0.5 * yForce * deltaT * deltaT);
+	} else {
+		xMov = (xVelocity * deltaT) + (0.5 * xForce * 100000 * deltaT * deltaT);
+		yMov = (yVelocity * deltaT) + (0.5 * yForce * 100000 * deltaT * deltaT);
+	}
 
 	xVelocity = xMov*deltaT;
 	yVelocity = yMov*deltaT;
@@ -195,6 +208,7 @@ void particle::OrbitAt(int radius, int x, int y)
 {
 	if (orbit > 360)
 		orbit = 1.0;
+
 	SetLocation(radius*sin((orbit*(2*3.1415))/360) + x - image->GetWidth()/2, radius*cos((orbit*(2*3.1415))/360) + y - image->GetHeight()/2);
 	orbit+= 0.2;
 
@@ -218,7 +232,7 @@ void particle::SetScreenSize(int x, int y)
 
 bool particle::IsMoving()
 {
-	if (abs(xVelocity) > 0.000001 || abs(yVelocity) > 0.000001)
+	if (abs(xVelocity) > 0.01 || abs(yVelocity) > 0.01)
 		return true;
 	else
 		return false;

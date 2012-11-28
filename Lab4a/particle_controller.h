@@ -47,6 +47,8 @@ public:
 	void Update(int mouseX, int mouseY);
 	void SetScreenSize(int xSize, int ySize);
 
+	int ReportAtomCreation();
+
 private:
 	void UpdateAllParticles();
 	atom *atomOverlay;
@@ -57,6 +59,7 @@ private:
 	int xSize, ySize;
 	int mouseX, mouseY;
 	bool gluonPresent;
+	int lastAtomCreated;
 
 };
 
