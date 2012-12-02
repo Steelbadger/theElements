@@ -25,13 +25,16 @@ public:
 
 	bool OnMouseRelease(particle::type p);
 	bool OnTableClick();
+	void OnClick();
 
 private:
 	int width, height;
 	int offset;
 	int mouseX, mouseY;
+	bool bottomMenuLock;
 	button tableButton;
 	sprite bottomMenu;
+	sprite lockIcon;
 	button* buttons[7];
 };
 

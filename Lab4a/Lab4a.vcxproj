@@ -93,6 +93,6 @@
     <None Include="ball.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
+  <ImportGroup Label  <None Include="ClassDiagram1.cdup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

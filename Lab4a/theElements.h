@@ -36,7 +36,7 @@ public:
 	void OnPaint();
 private:
 
-	enum GameState {SplashScreen, Menu, Game, Table, Pause, Quit};
+	enum GameState {SplashScreen, Menu, Guide, Game, Table, Pause, Quit};
 	GameState currentState;
 	Input input;
 	particle_controller particles;
@@ -54,6 +54,7 @@ private:
 	void displayFrame();
 	void DisplaySplashScreen();
 	void DisplayMenuScreen();
+	void DisplayGuide();
 	void RunGame();
 	void DisplayTable();
 	void DisplayPause();

@@ -92,4 +92,6 @@
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
+</Project>  <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
 </Project>

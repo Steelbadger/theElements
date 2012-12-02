@@ -1,8 +1,5 @@
 #include "sprite.h"
-#ifndef _WINDOWS_H_DEFINED_
-#define _WINDOWS_H_DEFINED_
 #include <windows.h>
-#endif
 
 sprite::sprite()
 {
@@ -129,16 +126,16 @@ void sprite::Move(sprite::direction dir)
 {
 	switch (dir) {
 		case LEFT:
-			x--;
+			x-=3;
 			break;
 		case RIGHT:
-			x++;
+			x+=3;
 			break;
 		case UP:
-			y--;
+			y-=3;
 			break;
 		case DOWN:
-			y++;
+			y+=3;
 			break;
 	}
 }
@@ -174,44 +171,44 @@ bool sprite::MouseOver(int xMouse, int yMouse)
 
 }
 
-HBITMAP sprite::CreateBitmapMask(HBITMAP hbmColour, COLORREF crTransparent)
+HBITMAP sprite::CreateBitmapMask(HBITMAP baseBitmap, COLORREF crTransparent)
 {
-    HDC hdcMem, hdcMem2;
+    HDC hdcTemp, hdcTemp2;
     HBITMAP hbmMask;
     BITMAP bm;
 
-    // Create monochrome (1 bit) mask bitmap.  
+    // Create monochrome mask bitmap.  
 
-    GetObject(hbmColour, sizeof(BITMAP), &bm);
+    GetObject(baseBitmap, sizeof(BITMAP), &bm);
     hbmMask = CreateBitmap(bm.bmWidth, bm.bmHeight, 1, 1, NULL);
 
-    // Get some HDCs that are compatible with the display driver
+    // Create some HDCs that are compatible with the display driver
 
-    hdcMem = CreateCompatibleDC(0);
-    hdcMem2 = CreateCompatibleDC(0);
+    hdcTemp = CreateCompatibleDC(0);
+    hdcTemp2 = CreateCompatibleDC(0);
 
-    SelectObject(hdcMem, hbmColour);
-    SelectObject(hdcMem2, hbmMask);
+    SelectObject(hdcTemp, baseBitmap);
+    SelectObject(hdcTemp2, hbmMask);
 
     // Set the background colour of the colour image to the colour
-    // you want to be transparent.
-    SetBkColor(hdcMem, crTransparent);
+    // to be transparent.
+    SetBkColor(hdcTemp, crTransparent);
 
-    // Copy the bits from the colour image to the B+W mask... everything
+    // Copy the bits from the colour image to the mask. Everything
     // with the background colour ends up white while everythig else ends up
-    // black...Just what we wanted.
+    // black.
 
-    BitBlt(hdcMem2, 0, 0, bm.bmWidth, bm.bmHeight, hdcMem, 0, 0, SRCCOPY);
+    BitBlt(hdcTemp2, 0, 0, bm.bmWidth, bm.bmHeight, hdcTemp, 0, 0, SRCCOPY);
 
-    // Take our new mask and use it to turn the transparent colour in our
+    // Take our new mask and use it to turn the transparent colour in the
     // original colour image to black so the transparency effect will
     // work right.
-    BitBlt(hdcMem, 0, 0, bm.bmWidth, bm.bmHeight, hdcMem2, 0, 0, SRCINVERT);
+    BitBlt(hdcTemp, 0, 0, bm.bmWidth, bm.bmHeight, hdcTemp2, 0, 0, SRCINVERT);
 
-    // Clean up.
+    // Tidy up.
 
-    DeleteDC(hdcMem);
-    DeleteDC(hdcMem2);
+    DeleteDC(hdcTemp);
+    DeleteDC(hdcTemp2);
 
     return hbmMask;
 }

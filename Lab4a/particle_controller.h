@@ -1,15 +1,7 @@
-#ifndef _PARTICLE_CONTROLLER_INCLUDED_
-#define _PARTICLE_CONTROLLER_INCLUDED_
+#pragma once
 
-#ifndef _PARTICLE_H_
-#define _PARTICLE_H_
 #include "particle.h"
-#endif
-
-#ifndef _WINDOWS_H_DEFINED_
-#define _WINDOWS_H_DEFINED_
 #include <windows.h>
-#endif
 #include "atoms.h"
 
 
@@ -63,5 +55,4 @@ private:
 
 };
 
-#endif
 

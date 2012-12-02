@@ -1,9 +1,6 @@
 #include "particle_controller.h"
 #include <math.h>
-#ifndef _PARTICLE_H_
-#define _PARTICLE_H_
 #include "particle.h"
-#endif
 #include "atoms.h"
 #include <iostream>
 
@@ -194,8 +191,13 @@ void particle_controller::SimulateParticles()
 
 	for (int i = 0; i < maxParticles; i++) {
 		if (!spaces[i]) {
-			count++;
+			if (particles[i]->GetType() != particle::ELECTRON) {
+				count++;
+			}
 		}
+	}
+	if (count > 15) {
+		count = 15;
 	}
 
 	for (int i = 0; i < maxParticles; i++) {
@@ -203,7 +205,7 @@ void particle_controller::SimulateParticles()
 			if (particles[i]->IsSelected() == false) {
 				particles[i]->SetForce(0,0);
 				if (gluonPresent == true) {
-					if (particles[i]->GetType() != particle::ELECTRON) {
+					if (particles[i]->GetType() == particle::ELECTRON) {
 						electrons++;
 					}
 					xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - xSize/2;
@@ -216,10 +218,11 @@ void particle_controller::SimulateParticles()
 							xdist = (particles[i]->GetX()+particles[i]->GetWidth()/2) - (particles[j]->GetX()+particles[j]->GetWidth()/2);
 							ydist = (particles[i]->GetY()+particles[i]->GetHeight()/2) - (particles[j]->GetY()+particles[j]->GetHeight()/2);
 							res = xdist*xdist + ydist*ydist;
-							if (particles[j]->GetType() != particle::GLUON && particles[j]->GetType() != particle::ELECTRON)
+							if (particles[j]->GetType() != particle::GLUON && particles[j]->GetType() != particle::ELECTRON) {
 								particles[i]->AddForce((xdist/res)*G, (ydist/res)*G);
-							else if (particles[j]->GetType() != particle::ELECTRON)
+							} else if (particles[j]->GetType() != particle::ELECTRON) {
 								particles[i]->AddForce((xdist/res), (ydist/res));
+							}
 						}
 					}	
 				}

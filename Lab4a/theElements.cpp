@@ -39,12 +39,19 @@ void theElements::HandleInstantInput()
 			} else if (input.ReportLMousePress()) {
 				current = particles.OnClick(input.GetMouseX(), input.GetMouseY());
 			}
+			if (input.ReportLMousePress()) {
+				HUD.OnClick();
+			}
 
 			if (input.ReportRMouseRelease()) {
 				particles.DestroyFirstParticleAtMouse();
 			}
 			if (input.ReportKeyPress('P')) {
 				currentState = Pause;
+			}
+
+			if (input.ReportKeyPress('C')) {
+				particles.DeleteParticles();
 			}
 
 			if (particles.ReportAtomCreation() >= 0) {
@@ -131,6 +138,9 @@ void theElements::MainLoop()
 		case Menu:
 			DisplayMenuScreen();
 			break;
+		case Guide:
+			DisplayGuide();
+			break;
 		case Game:
 			RunGame();
 			break;
@@ -170,13 +180,15 @@ void theElements::DisplayMenuScreen()
 {
 	input.Update();
 	if (input.ReportLMousePress()) {
-		menu.OnClick(input.ReportMouseLocation(Mouse::X), input.ReportMouseLocation(Mouse::Y));
+		menu.OnClick(input.GetMouseX(), input.GetMouseY());
 	}
 	menu.Update(input.GetMouseX(), input.GetMouseY());
 	if (menu.ReturnButtonClicked() == menu::NewGame) {
 		currentState = Game;
 	} else if (menu.ReturnButtonClicked() == menu::Quit) {
 		currentState = Quit;
+	} else if (menu.ReturnButtonClicked() == menu::Guide) {
+		currentState = Guide;
 	}
 	if (WaitFor(10)) {	
 		menu.DisplayMenu(bitmapHDC,backHDC);
@@ -184,12 +196,29 @@ void theElements::DisplayMenuScreen()
 	}
 }
 
+void theElements::DisplayGuide()
+{
+	input.Update();
+	if (input.ReportLMousePress()) {
+		menu.OnClickGuide(input.GetMouseX(), input.GetMouseY());
+	}
+	menu.UpdateGuide(input.GetMouseX(), input.GetMouseY());
+	if (menu.ReturnButtonClicked() == menu::GuideContinue) {
+		currentState = Menu;
+	}
+	if (WaitFor(10))
+	{	
+		menu.DisplayGuide(bitmapHDC,backHDC);
+		displayFrame();
+	}
+
+}
+
 void theElements::RunGame()
 {
 		HandleInstantInput();
 		HandleDelayedInput(5);
 		background.Draw(bitmapHDC, backHDC);
-	//	particles.Update(input.GetMouseX(), input.GetMouseY());
 		particles.DrawAll(bitmapHDC, backHDC);
 		HUD.Display(bitmapHDC, backHDC);
 		displayFrame();

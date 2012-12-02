@@ -4,13 +4,13 @@
 periodicTable::periodicTable(void)
 {
 	BITMAP bmap;
+	xBa
 	xBase = 0;
-	yBase = 0;
-	lockedTable = (HBITMAP)LoadImage(NULL, "table_locked.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	yBase = 0;kedTable = (HBITMAP)LoadImage(NULL, "table_locked.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	unl
 	unlockedTable = (HBITMAP)LoadImage(NULL, "table_unlocked.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	GetObject(lockedTable,sizeof(bmap), &bmap);
-	width = bmap.bmWidth;
-	height = bmap.bmHeight;
+	width = bmap.bmWidth;ght = bmap.bmHeight;
 }
 
 
@@ -44,14 +44,15 @@ void periodicTable::InitPositions()
 	}pHDC, HDC backHDC)
 {
 	HBITMAP originalBitMap;
+	originalBitMap = (HBITM
+	HBITMAP originalBitMap;
 	originalBitMap = (HBITMAP)SelectObject(bitmapHDC,lockedTable);
 
-	SelectObject(bitmapHDC, lockedTable);
-	BitBlt(backHDC, xBase, yBase, xBase+width, yBase+height, bitmapHDC, 0, 0width, tObject(bitmapHDC, unlockedTable);
+	SelectObject(bitmapHDC, lockedTable);+height, bitmapHDC, 0, 0width, tObject(bitmapHDC, unlockedTable);
 	for (int i = 0; i< 118; i++) {
 		if (unlocked[i] = true)
-			BitBlt(backHDC, xBase+positions[i][= true)
-			BitBlt(backHDC, xBase+positions[i][0], yBase+positions[i][1], 74, 74, SRCCOPY);
+			BitBlt(backHDC, xBase+p
+		if (unlocked[i] == true)lt(backHDC, xBase+positions[i][0], yBase+positions[i][1], 74, 74, SRCCOPY);
 	}
 
 	SelectObject(bitmapHDC,originalBitMap);

@@ -1,20 +1,7 @@
-#ifndef _PARTICLE_H_DEFINED_
-#define _PARTICLE_H_DEFINED_
-
-#ifndef _STRING_DEFINED_
-#define _STRING_DEFINED_
+#pragma once
 #include <string>
-#endif
-
-#ifndef _SPRITE_DEFINED_
-#define _SPRITE_DEFINED_
 #include "sprite.h"
-#endif
-
-#ifndef _WINDOWS_H_DEFINED_
-#define _WINDOWS_H_DEFINED_
 #include <windows.h>
-#endif
 
 class particle
 {
@@ -63,6 +50,4 @@ private:
 	float orbit;
 
 };
-
-#endif
 
